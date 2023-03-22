@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteDentalClinic.Api", "WhiteDentalClinic.Api\WhiteDentalClinic.Api.csproj", "{1016A189-8336-46ED-A4D6-C9736754DD32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteDentalClinic.Application", "WhiteDentalClinic.Application\WhiteDentalClinic.Application.csproj", "{CB08B546-0584-43A9-9F50-2F6A2F96228A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteDentalClinic.DataAccess", "WhiteDentalClinic.DataAccess\WhiteDentalClinic.DataAccess.csproj", "{021A0909-7751-48A0-B915-6C5B3BBB7435}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteDentalClinic.Shared", "WhiteDentalClinic.Shared\WhiteDentalClinic.Shared.csproj", "{7DCDBF0D-F6A9-4D4C-BFE6-23D728C7B6E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteDentalClinic.WebUI", "WhiteDentalClinic.WebUI\WhiteDentalClinic.WebUI.csproj", "{0EB45932-7947-4964-AA18-8F6DD1674DAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1016A189-8336-46ED-A4D6-C9736754DD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1016A189-8336-46ED-A4D6-C9736754DD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1016A189-8336-46ED-A4D6-C9736754DD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1016A189-8336-46ED-A4D6-C9736754DD32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB08B546-0584-43A9-9F50-2F6A2F96228A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB08B546-0584-43A9-9F50-2F6A2F96228A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB08B546-0584-43A9-9F50-2F6A2F96228A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB08B546-0584-43A9-9F50-2F6A2F96228A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021A0909-7751-48A0-B915-6C5B3BBB7435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021A0909-7751-48A0-B915-6C5B3BBB7435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021A0909-7751-48A0-B915-6C5B3BBB7435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021A0909-7751-48A0-B915-6C5B3BBB7435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DCDBF0D-F6A9-4D4C-BFE6-23D728C7B6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCDBF0D-F6A9-4D4C-BFE6-23D728C7B6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCDBF0D-F6A9-4D4C-BFE6-23D728C7B6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCDBF0D-F6A9-4D4C-BFE6-23D728C7B6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB45932-7947-4964-AA18-8F6DD1674DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB45932-7947-4964-AA18-8F6DD1674DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB45932-7947-4964-AA18-8F6DD1674DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB45932-7947-4964-AA18-8F6DD1674DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E3C63885-B5EE-4286-8EF2-99A210CC7343}
+	EndGlobalSection
+EndGlobal

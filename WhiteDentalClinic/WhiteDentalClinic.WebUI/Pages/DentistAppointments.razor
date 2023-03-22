@@ -1,0 +1,53 @@
+﻿@page "/dentistappointments"
+@using WhiteDentalClinic.Application.Models.AppointmentModel;
+@using WhiteDentalClinic.Application.Models;
+@inject HttpClient Http
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+
+<h3>DentistAppointments</h3>
+
+
+@*<EditForm class="d-flex flex-column align-items-center">
+    <InputText @bind-Value="@dentistRequestId" />
+
+    <button type="submit" class="btn btn-primary">See appointments:</button>
+</EditForm>*@
+
+@if (appByDentist == null)
+{
+    <p><em>No dentist appointments found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <th>Date time</th>
+                <th>Customer ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in appByDentist)
+            {
+                <tr>
+                    <td>@app.Id</td>
+                    <td>@app.dateTime</td>
+                    <td>@app.CustomerId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<AppointmentResponse> appByDentist = new List<AppointmentResponse>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid dentistRequestId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");    //by default an ID but need to be modify
+        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/dentist{dentistRequestId}");
+        appByDentist = temp.Result.ToList();
+    }
+}
