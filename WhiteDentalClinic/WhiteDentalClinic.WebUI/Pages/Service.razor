@@ -1,0 +1,16 @@
+﻿@page "/service"
+@using WhiteDentalClinic.Application.Models.MedicalServiceModel;
+@using WhiteDentalClinic.Application.Models;
+@inject HttpClient Http
+
+<h3>Service</h3>
+
+@code {
+    private List<ResponseServices> services = new List<ResponseServices>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>("api/Dentists/all");
+        services = temp.Result.ToList();
+    }
+}
