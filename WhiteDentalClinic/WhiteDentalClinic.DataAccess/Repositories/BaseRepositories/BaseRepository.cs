@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WhiteDentalClinic.DataAccess.Repositories.BaseRepositories;
 
-namespace WhiteDentalClinic.DataAccess.Repositories
+namespace WhiteDentalClinic.DataAccess.Repositories.BaseRepositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity>
         where TEntity : class

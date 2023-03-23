@@ -1,6 +1,4 @@
-﻿using WhiteDentalClinic.DataAccess.Entities.ServiceDentist;
-
-namespace WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity
+﻿namespace WhiteDentalClinic.DataAccess.Entities
 {
     public class MedicalService
     {

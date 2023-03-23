@@ -2,7 +2,7 @@
 using WhiteDentalClinic.Application.Exceptions;
 using WhiteDentalClinic.Application.Models.Customer;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
+using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.CustomerRepository;
 using WhiteDentalClinic.DataAccess.Repositories.MedicalServiceRepository;
 using WhiteDentalClinic.Shared.Services;

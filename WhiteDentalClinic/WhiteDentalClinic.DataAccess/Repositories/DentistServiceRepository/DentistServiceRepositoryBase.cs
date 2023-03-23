@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
-using WhiteDentalClinic.DataAccess.Entities.ServiceDentist;
-using WhiteDentalClinic.DataAccess.Repositories.CustomerRepository;
+﻿using WhiteDentalClinic.DataAccess.Entities;
+using WhiteDentalClinic.DataAccess.Repositories.BaseRepositories;
 
 namespace WhiteDentalClinic.DataAccess.Repositories.DentistServiceRepository
 {

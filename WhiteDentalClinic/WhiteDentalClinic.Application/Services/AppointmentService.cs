@@ -3,8 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WhiteDentalClinic.Application.Models.AppointmentModel;
 using WhiteDentalClinic.Application.Models.Dentist;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Entities.AppointmentEntity;
-using WhiteDentalClinic.DataAccess.Entities.DentistEntity;
+using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.AppointmentRepository;
 
 namespace WhiteDentalClinic.Application.Services

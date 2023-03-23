@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhiteDentalClinic.Application.Models.MedicalServiceModel;
-using WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity;
 
 namespace WhiteDentalClinic.Application.Services.Interfaces
 {

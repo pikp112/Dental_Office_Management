@@ -1,4 +1,4 @@
-﻿using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
+﻿using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.BaseRepositories;
 
 namespace WhiteDentalClinic.DataAccess.Repositories.CustomerRepository

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhiteDentalClinic.Application.Models.MedicalServiceModel;
-using WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity;
+using WhiteDentalClinic.DataAccess.Entities;
 
 namespace WhiteDentalClinic.Application.MappingProfiles
 {

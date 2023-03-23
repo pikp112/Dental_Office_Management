@@ -1,6 +1,5 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
-using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
 
 namespace WhiteDentalClinic.Application.Models.Customer
 {

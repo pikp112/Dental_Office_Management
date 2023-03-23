@@ -3,7 +3,7 @@ using WhiteDentalClinic.Application.Exceptions;
 using WhiteDentalClinic.Application.Models.Dentist;
 using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity;
+using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.MedicalServiceRepository;
 using WhiteDentalClinic.Shared.Services;
 
