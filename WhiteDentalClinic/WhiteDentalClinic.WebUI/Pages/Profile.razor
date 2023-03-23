@@ -1,0 +1,61 @@
+﻿@attribute [Route(Routes.Profile)]
+@using WhiteDentalClinic.Shared.Models;
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+
+<h3> My profile</h3>
+<br />
+<h5> Details:</h5>
+<br />
+@if (currentProfile == null)
+{
+    <p><em>No profile found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Profile ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Age</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@currentProfile.Id</td>
+                <td>@currentProfile.FirstName</td>
+                <td>@currentProfile.LastName</td>
+                <td>@currentProfile.Age</td>
+                <td>@currentProfile.Email</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+<Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})">
+    My appointments are here
+</Syncfusion.Blazor.Buttons.SfButton>
+
+@code {
+    private ProfileResponse currentProfile = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid currentRequestId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (CUSTOMER/DENTIST)
+        try
+        {
+            var temp = await Http.GetFromJsonAsync<ApiResult<ProfileResponse>>($"/api/Customers/{currentRequestId}");
+            this.currentProfile = temp.Result;
+        }
+        catch (Exception ex)
+        {
+            //var temp = await Http.GetFromJsonAsync<ApiResult<ProfileResponse>>($"/api/Dentists/{currentRequestId}");       !!!!!!!!!!!!!
+            //this.currentProfile = temp.Result;                                !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+    }
+
+}

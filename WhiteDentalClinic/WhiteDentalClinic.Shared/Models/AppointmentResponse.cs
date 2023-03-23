@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WhiteDentalClinic.Application.Models.AppointmentModel
+namespace WhiteDentalClinic.Shared.Models
 {
     public class AppointmentResponse
     {

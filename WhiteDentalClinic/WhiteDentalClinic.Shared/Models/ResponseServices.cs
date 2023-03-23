@@ -1,4 +1,4 @@
-﻿namespace WhiteDentalClinic.Application.Models.MedicalServiceModel
+﻿namespace WhiteDentalClinic.Shared.Models
 {
     public class ResponseServices
     {

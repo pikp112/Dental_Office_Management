@@ -1,13 +1,13 @@
-﻿@page "/makeappointment";
+﻿@attribute [Route(Routes.NewAppointment)]
 @inject HttpClient Http
 @using Syncfusion.Blazor.Calendars
-@using System.ComponentModel.DataAnnotations;
-@using WhiteDentalClinic.Application.Models;
-@using static WhiteDentalClinic.WebUI.Pages.Dentists;
-@using System.Text.Json;
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+@using WhiteDentalClinic.Shared.Models
+@using static WhiteDentalClinic.WebUI.Pages.Dentist.Dentists;
 
 
-<h2>MakeAppointment</h2>
+<h2>Make an appointment:</h2><br />
 <h5>Select date and time for your appointment:</h5>
 <br />
 @*Add Placeholder="Choose a Date Range" in below code when no value is set to DateTimePicker*@
@@ -16,8 +16,8 @@
 
 <EditForm class="d-flex flex-column align-items-left" Model="@newAppointment" OnSubmit="@HandleValidSubmit">
 
-    <Syncfusion.Blazor.Calendars.SfDateTimePicker TValue="DateTime?" Min='@MinDate' Max='@MaxDate' Value='@DateValue' OnClose="OnCloseHandler"
-                                                  StrictMode=true Placeholder="Select a date and time" Format="dd-MM-yyyy HH:mm">
+    <Syncfusion.Blazor.Calendars.SfDateTimePicker TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value='@newAppointment.dateTime'
+                                                  StrictMode=true Placeholder="Select a date and time">
     </Syncfusion.Blazor.Calendars.SfDateTimePicker>
 
     <div class="m-2">
@@ -26,7 +26,7 @@
             <InputSelect class="form-select" id="id" @bind-Value="@newAppointment.DentistId">
                 @foreach (var dentist in dentists)
                 {
-                    <option value="@newAppointment.DentistId">@dentist.FirstName @dentist.LastName</option>
+                    <option value="@dentist.Id">@dentist.FirstName @dentist.LastName</option>
                 }
             </InputSelect>
         </div>
@@ -48,11 +48,9 @@
     }
 
     private CreateAppointmentRequestModel newAppointment = new CreateAppointmentRequestModel
-        {
-            //dateTime = DateValue,
-            CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2"),                //here will take ID from current customer
-           //DentistId = Guid.Parse("87459b92-79d6-44b3-850e-727d90519ba3")                  //here will take dentist's ID who was selected by previous customer
-        };
+    {
+            CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
+    };
 
     private string response = string.Empty;
 
@@ -60,23 +58,19 @@
     public DateTime MaxDate { get; set; } = new DateTime(DateTime.Today.AddYears(2).Year, DateTime.Now.Month, 25, 02, 00, 00);
     public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
 
-    public void TakeDentistId()
-    {
-        this.newAppointment.dateTime = DateValue;
-    }
 
     public class CreateAppointmentRequestModel
     {
-        public Guid Id = Guid.NewGuid();
-        [Required(ErrorMessage = "Please select again the date and time.")]
-        public DateTime? dateTime { get; set; }
-        public Guid CustomerId { get; set; }
-        public Guid DentistId { get; set; }
+    public Guid Id = Guid.NewGuid();
+    [Required(ErrorMessage = "Please select again the date and time.")]
+    public DateTime? dateTime { get; set; }
+    public Guid CustomerId { get; set; } 
+    public Guid DentistId { get; set; }
     }
 
     public async Task HandleValidSubmit()
     {
-        var response = await Http.PostAsJsonAsync("/api/Appointment/create", newAppointment);
+        var response = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
 
         this.response = await response.Content.ReadAsStringAsync();
     }

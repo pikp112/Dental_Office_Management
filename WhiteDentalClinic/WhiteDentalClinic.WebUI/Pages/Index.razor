@@ -1,13 +1,10 @@
-﻿@page "/home"
+﻿@attribute [Route(Routes.Index)]
 @inject NavigationManager NavManager
 
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-<button class="btn btn-primary btn-lg" @onclick="@(() => { NavManager.NavigateTo("/makeappointment");})"><h2>Make an Appointment</h2></button>
-
+<Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">
+    My appointments are here
+</Syncfusion.Blazor.Buttons.SfButton>

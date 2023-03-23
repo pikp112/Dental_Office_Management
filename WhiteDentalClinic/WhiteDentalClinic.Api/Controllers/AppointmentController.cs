@@ -67,7 +67,7 @@ namespace WhiteDentalClinic.Api.Controllers
 
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult CreateAppointment(CreateAppointmentRequestModel requestAppointmentModel) 
         {
             try
@@ -80,7 +80,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete]
         public IActionResult DeleteAppointment(Guid appointmentId)
         {
             try

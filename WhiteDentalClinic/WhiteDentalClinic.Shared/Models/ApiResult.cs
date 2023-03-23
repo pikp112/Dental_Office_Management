@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace WhiteDentalClinic.Application.Models
+namespace WhiteDentalClinic.Shared.Models
 {
     public class ApiResult<TEntity>
         where TEntity : class

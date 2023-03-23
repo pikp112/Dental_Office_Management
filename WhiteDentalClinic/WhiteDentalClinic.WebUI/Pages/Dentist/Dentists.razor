@@ -1,8 +1,8 @@
-﻿@page "/dentists"
-@using WhiteDentalClinic.Application.Models;
-@using WhiteDentalClinic.Shared;
+﻿@attribute [Route(Routes.Dentists)]
+@using WhiteDentalClinic.Shared
 @inject HttpClient Http
-@using System.Text.Json;
+@using System.Text.Json
+@using WhiteDentalClinic.Shared.Models
 
 
 <PageTitle>Dentists</PageTitle>
