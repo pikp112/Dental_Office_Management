@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace WhiteDentalClinic.Application.Models.Dentist
+﻿namespace WhiteDentalClinic.Application.Models.Dentist
 {
     public class DentistResponseModel
     {

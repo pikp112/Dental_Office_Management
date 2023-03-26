@@ -1,21 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using WhiteDentalClinic.Application.MappingProfiles;
 using WhiteDentalClinic.Application.Services;
 using WhiteDentalClinic.DataAccess;
-using WhiteDentalClinic.DataAccess.Repositories.CustomerRepository;
-using WhiteDentalClinic.DataAccess.Repositories.DentistRepository;
 using WhiteDentalClinic.Shared.Services;
-using WhiteDentalClinic.DataAccess.Repositories.MedicalServiceRepository;
-using WhiteDentalClinic.DataAccess.Repositories.AppointmentRepository;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Repositories.DentistServiceRepository;
-using WhiteDentalClinic.DataAccess.Repositories.DentistRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
+using WhiteDentalClinic.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,7 +37,7 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 builder.Services.AddScoped<ITemplateService, TemplateService>();
 
-builder.Services.AddTransient<IClaimService, ClaimService>();   
+builder.Services.AddTransient<IClaimService, ClaimService>();
 
 builder.Services.AddAutoMapper(typeof(CustomerProfile));
 builder.Services.AddAutoMapper(typeof(DentistProfile));

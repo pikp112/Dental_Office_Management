@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WhiteDentalClinic.Application.Models.UserModel;
+﻿using WhiteDentalClinic.Application.Models.UserModel;
 
 namespace WhiteDentalClinic.Application.Services.Interfaces
 {

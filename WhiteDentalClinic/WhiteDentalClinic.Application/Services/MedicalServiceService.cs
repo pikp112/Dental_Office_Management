@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using WhiteDentalClinic.Application.Exceptions;
-using WhiteDentalClinic.Application.Models.Dentist;
 using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity;
-using WhiteDentalClinic.DataAccess.Repositories.MedicalServiceRepository;
+using WhiteDentalClinic.DataAccess.Entities;
+using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 using WhiteDentalClinic.Shared.Services;
 
 namespace WhiteDentalClinic.Application.Services
@@ -14,11 +13,17 @@ namespace WhiteDentalClinic.Application.Services
         private readonly IClaimService _claimService;
         private readonly IMapper _mapper;
         private readonly IMedicalServiceRepository _medicalServiceRepository;
-        public MedicalServiceService(IMedicalServiceRepository medicalServiceRepository, IMapper mapper, IClaimService claimService) 
+        private readonly IDentistServiceRepository _dentistServiceRepository;
+        public MedicalServiceService(
+            IMedicalServiceRepository medicalServiceRepository, 
+            IMapper mapper, 
+            IClaimService claimService,
+            IDentistServiceRepository dentistServiceRepository) 
         {
             _medicalServiceRepository= medicalServiceRepository;
             _mapper = mapper;
             _claimService = claimService;
+            _dentistServiceRepository = dentistServiceRepository;
         }
         public IEnumerable<ResponseMedicalServices> GetAllMedicalServices()
         {
@@ -28,9 +33,29 @@ namespace WhiteDentalClinic.Application.Services
 
         public IEnumerable<ResponseMedicalServices> GetAllMedicalServicesByDentistId(Guid requestDentistId)
         {
+            var listMedicalServicesById = _dentistServiceRepository.GetAll().Where(x => x.dentistId == requestDentistId);
 
-            var listMedicalServices = _medicalServiceRepository.GetAll().Where(x => x.Id == requestDentistId);
-            return _mapper.Map<IEnumerable<ResponseMedicalServices>>(listMedicalServices);
+            var tempId = listMedicalServicesById.Select(x => x.medicalServiceId).ToList(); //list ID medical services
+
+            var tempListMedicalService = new List<MedicalService>();
+
+            foreach(var item in _medicalServiceRepository.GetAll().ToList())
+            {
+                foreach(var id in tempId)
+                {
+                    if(item.Id == id)
+                    {
+                        tempListMedicalService.Add(item);
+                    }
+                
+                }
+            }
+
+            return _mapper.Map<IEnumerable<ResponseMedicalServices>>(tempListMedicalService);
+
+            /*            var listMedicalServices = _medicalServiceRepository.GetAll().Where(x => x.Id == requestDentistId);
+                        return _mapper.Map<IEnumerable<ResponseMedicalServices>>(listMedicalServices);
+            */
         }
 
         public ResponseMedicalServices CreateAMedicalService(CreateMedicalService requestMedicalServiceModel)

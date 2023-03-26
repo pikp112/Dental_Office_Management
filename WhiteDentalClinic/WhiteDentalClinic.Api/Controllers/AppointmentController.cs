@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WhiteDentalClinic.Application.Models;
 using WhiteDentalClinic.Application.Models.AppointmentModel;
 using WhiteDentalClinic.Application.Services.Interfaces;

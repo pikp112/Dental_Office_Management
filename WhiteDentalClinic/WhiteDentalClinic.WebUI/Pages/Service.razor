@@ -2,14 +2,39 @@
 @using WhiteDentalClinic.Shared.Models
 @inject HttpClient Http
 
-<h3>Service</h3>
+<h3>Select your appointments:</h3>
 
-@code {
-    private List<ResponseServices> services = new List<ResponseServices>();
+<select class="form-control" @bind="@dentistId">
+    @foreach(var item in appointmentsByCustomer)
+    {
+        <option value="@item.DentistId">
+            @item.dateTime
+        </option>
+    }
+</select>
+    <h5>The medical services of the dentist are:</h5>
+    <h5>-----list----medicalServicesByDentistId-.Take dentist Id from previous list and display his medical services</h5>
+
+
+
+    @code {
+    private List<ResponseServices> medicalServicesByDentistId = new List<ResponseServices>();
+
+    private List<AppointmentResponse> appointmentsByCustomer = new List<AppointmentResponse>();
+
+    private Guid? dentistId = Guid.Parse("efed0811-4fc8-47fd-9d6e-c72fdca76fc5");  // default a random ID dentist
+
+    //by default a customer ID
+    private Guid currentRequesCustomertId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
 
     protected override async Task OnInitializedAsync()
     {
-        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>("api/Dentists/all");
-        services = temp.Result.ToList();
+        //take all appointments
+        var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequesCustomertId}");
+        appointmentsByCustomer = tempAppByCustomerId.Result.ToList();
+
+        //take all medical services by dentist ID
+        var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/MedicalService/all/dentist{dentistId}");
+        medicalServicesByDentistId = tempMedicalServices.Result.ToList();
     }
 }

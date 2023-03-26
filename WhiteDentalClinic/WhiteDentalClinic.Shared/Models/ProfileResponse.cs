@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WhiteDentalClinic.Shared.Models
+﻿namespace WhiteDentalClinic.Shared.Models
 {
     public class ProfileResponse
     {

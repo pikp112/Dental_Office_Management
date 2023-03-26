@@ -1,54 +1,11 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">WhiteDentalClinic.WebUI</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="index" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="profile">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> My profile
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="dentists">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Dentists
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="appointments">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> My appointments
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="newappointment">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Appointment
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="service">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Services
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+﻿<MudNavMenu>
+    <MudNavLink Href="index" Match="NavLinkMatch.All">Home</MudNavLink>
+    <MudNavLink Href="about" Match="NavLinkMatch.Prefix">About us</MudNavLink>
+    <MudNavGroup Title="My Profile" Expanded="true">
+        <MudNavLink Href="profile" Match="NavLinkMatch.Prefix">Details</MudNavLink>
+        <MudNavLink Href="appointments" Match="NavLinkMatch.Prefix">My appointments</MudNavLink>
+        <MudNavLink Href="dentists" Match="NavLinkMatch.Prefix">Dentists</MudNavLink>
+    </MudNavGroup>
+    <MudNavLink Href="newappointment" Match="NavLinkMatch.Prefix">New appointment</MudNavLink>
+    <MudNavLink Href="service" Match="NavLinkMatch.Prefix">Services</MudNavLink>
+</MudNavMenu>
