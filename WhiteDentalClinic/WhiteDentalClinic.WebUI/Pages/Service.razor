@@ -5,19 +5,46 @@
 <h3>Select your appointments:</h3>
 
 <select class="form-control" @bind="@dentistId">
-    @foreach(var item in appointmentsByCustomer)
+    @foreach (var item in appointmentsByCustomer)
     {
         <option value="@item.DentistId">
             @item.dateTime
         </option>
     }
 </select>
-    <h5>The medical services of the dentist are:</h5>
-    <h5>-----list----medicalServicesByDentistId-.Take dentist Id from previous list and display his medical services</h5>
+
+<h5>The medical services of the dentist are:</h5>
+<h5>-----list----medicalServicesByDentistId-.Take dentist Id from previous list and display his medical services</h5>
+
+@if (medicalServicesByDentistId == null)
+{
+    <p><em>No medical service.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ms in medicalServicesByDentistId)
+            {
+                <tr>
+                    <td>@ms.Id</td>
+                    <td>@ms.Name</td>
+                    <td>@ms.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 
-
-    @code {
+@code {
     private List<ResponseServices> medicalServicesByDentistId = new List<ResponseServices>();
 
     private List<AppointmentResponse> appointmentsByCustomer = new List<AppointmentResponse>();
