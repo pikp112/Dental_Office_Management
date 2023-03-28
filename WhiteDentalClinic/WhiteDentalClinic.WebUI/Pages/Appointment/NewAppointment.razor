@@ -5,9 +5,12 @@
 @using System.Text.Json
 @using WhiteDentalClinic.Shared.Models
 @using static WhiteDentalClinic.WebUI.Pages.Dentist.Dentists;
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
 
 
-<h2>Make an appointment:</h2><br />
+<h2>Make an appointment:</h2>
+<br />
 <h5>Select date and time for your appointment:</h5>
 <br />
 @*Add Placeholder="Choose a Date Range" in below code when no value is set to DateTimePicker*@
@@ -48,9 +51,9 @@
     }
 
     private CreateAppointmentRequestModel newAppointment = new CreateAppointmentRequestModel
-    {
+        {
             CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
-    };
+        };
 
     private string response = string.Empty;
 
@@ -61,17 +64,24 @@
 
     public class CreateAppointmentRequestModel
     {
-    public Guid Id = Guid.NewGuid();
-    [Required(ErrorMessage = "Please select again the date and time.")]
-    public DateTime? dateTime { get; set; }
-    public Guid CustomerId { get; set; } 
-    public Guid DentistId { get; set; }
+        public Guid Id = Guid.NewGuid();
+        [Required(ErrorMessage = "Please select again the date and time.")]
+        public DateTime? dateTime { get; set; }
+        public Guid CustomerId { get; set; }
+        public Guid DentistId { get; set; }
     }
 
     public async Task HandleValidSubmit()
     {
-        var response = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
-
-        this.response = await response.Content.ReadAsStringAsync();
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+            var response = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
+            this.response = await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            NavManager.NavigateTo(Routes.Index);
+        }
     }
 }

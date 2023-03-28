@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavManager
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -7,7 +8,8 @@
 <MudLayout>
     <MudAppBar>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        My Application
+        <MudIconButton OnClick="@(() => {NavManager.NavigateTo("/index");})"><img src="~/img/dentalcliniclogo.jpg" width="20" height="20" /></MudIconButton>
+            White Dental Clinic
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu />
@@ -18,6 +20,8 @@
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+
 
 @code {
     bool _drawerOpen = true;

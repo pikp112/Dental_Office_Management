@@ -3,13 +3,14 @@
 @inject HttpClient Http
 @using System.Text.Json
 @using WhiteDentalClinic.Shared.Models
+@inject NavigationManager NavManager
 
 
 <PageTitle>Dentists</PageTitle>
 
 <h1>Dentists</h1>
 
-<br/>
+<br />
 
 @if (dentists == null)
 {
@@ -17,7 +18,7 @@
 }
 else
 {
-@*        <div class="col-lg-12 control-section">
+    @*        <div class="col-lg-12 control-section">
         <div class="content-wrapper">
             <div class="row">
                 <SfGrid @ref="Grid" DataSource="@GridData" AllowFiltering="true" AllowPaging="true">
@@ -38,10 +39,11 @@ else
                 <th>Last name</th>
                 <th>Age</th>
                 <th>Email</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var dentist in dentists)
+            @foreach (var dentist in dentists.OrderBy(a=>a.FirstName))
             {
                 <tr>
                     <td>@dentist.Id</td>
@@ -49,6 +51,7 @@ else
                     <td>@dentist.LastName</td>
                     <td>@dentist.Age</td>
                     <td>@dentist.Email</td>
+                    <td><button class="btn btn-primary" onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">Check availability</button></td>
                 </tr>
             }
         </tbody>

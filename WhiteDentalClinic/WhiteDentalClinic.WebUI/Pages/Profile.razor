@@ -3,42 +3,70 @@
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
-
-<h3> My profile</h3>
-<br />
-<h5> Details:</h5>
-<br />
 @if (currentProfile == null)
 {
     <p><em>No profile found.</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Profile ID</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Age</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@currentProfile.Id</td>
-                <td>@currentProfile.FirstName</td>
-                <td>@currentProfile.LastName</td>
-                <td>@currentProfile.Age</td>
-                <td>@currentProfile.Email</td>
-            </tr>
-        </tbody>
-    </table>
+<section class="vh-100" style="background-color: white;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-6 mb-4 mb-lg-0">
+                <div class="card mb-3" style="border-radius: .5rem;">
+                    <div class="row g-0">
+                        <div class="col-md-4 gradient-custom text-center text-white"
+                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                 alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                            <h5>@currentProfile.FirstName</h5>
+                            <h5>@currentProfile.LastName</h5>
+                            <i class="far fa-edit mb-5"></i>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-4">
+                                <h6>Information</h6>
+                                <hr class="mt-0 mb-4">
+                                <div class="row pt-1">
+                                    <div class="col-6 mb-3">
+                                        <h6>Email</h6>
+                                        <p class="text-muted">@currentProfile.Email</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Age</h6>
+                                        <p class="text-muted">@currentProfile.Age</p>
+                                    </div>
+                                </div>
+                                <h6>Projects</h6>
+                                <hr class="mt-0 mb-4">
+                                <div class="row pt-1">
+                                    <div class="col-6 mb-3">
+                                        <h6>Recent</h6>
+                                        <p class="text-muted">Lorem ipsum</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                            <h6>Appointments</h6>
+                                            <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn-primary">
+                                                Click here
+                                            </Syncfusion.Blazor.Buttons.SfButton>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start">
+                                        <MudIcon Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" />
+                                        <MudIcon Icon="@Icons.Custom.Brands.Google" Title="Google" />
+                                        <MudIcon Icon="@Icons.Custom.Brands.Reddit" Title="Reddit" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 }
 
-<Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})">
-    My appointments are here
-</Syncfusion.Blazor.Buttons.SfButton>
 
 @code {
     private ProfileResponse currentProfile = null;

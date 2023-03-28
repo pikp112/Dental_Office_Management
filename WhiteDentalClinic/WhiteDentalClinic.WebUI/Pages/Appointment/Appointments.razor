@@ -3,6 +3,8 @@
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @using WhiteDentalClinic.Shared.Models
+@inject NavigationManager NavManager
+@inject IJSRuntime JsRuntime
 
 <h3>My Appointments</h3>
 
@@ -25,15 +27,17 @@ else
                 <th>Appointment ID</th>
                 <th>Date time</th>
                 <th>Dentist ID</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var app in appointmentsByUser)
+        <tbody @bind="@selectAppointmentToDelete">
+            @foreach (var app in appointmentsByUser.OrderBy(app => app.dateTime))
             {
                 <tr>
                     <td>@app.Id</td>
                     <td>@app.dateTime</td>
                     <td>@app.DentistId</td>
+                    <td><button class="btn btn-danger" type="button" onclick="@( () => DeleteClick(app.Id))">Delete</button></td>
                 </tr>
             }
         </tbody>
@@ -43,10 +47,13 @@ else
 @code {
     private List<AppointmentResponse> appointmentsByUser = new List<AppointmentResponse>();
 
+    private string selectAppointmentToDelete = null;
+
+    //by default a customer ID
+    private Guid currentRequestId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
+
     protected override async Task OnInitializedAsync()
     {
-        //by default a customer ID
-        Guid currentRequestId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
         try
         {
             var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequestId}");
@@ -56,6 +63,23 @@ else
         {
             //var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/dentist{currentRequestId}");
             //appointmentsByUser = temp.Result.ToList();
+        }
+    }
+
+    protected async Task DeleteClick(Guid selectAppointmentToDelete)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+            string uriApp = selectAppointmentToDelete.ToString();
+            await Http.DeleteAsync($"/api/Appointment?appointmentId={selectAppointmentToDelete}");
+
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+        }
+        else
+        {
+            NavManager.NavigateTo(Routes.Index);
         }
     }
 }
