@@ -17,13 +17,14 @@
 
 
 
-<EditForm class="d-flex flex-column align-items-left" Model="@newAppointment" OnSubmit="@HandleValidSubmit">
-
+<EditForm class="d-flex flex-column align-items-left" Model="@newAppointment" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <Syncfusion.Blazor.Calendars.SfDateTimePicker TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value='@newAppointment.dateTime'
                                                   StrictMode=true Placeholder="Select a date and time">
     </Syncfusion.Blazor.Calendars.SfDateTimePicker>
 
-    <div class="m-2">
+    <div class="w-25 p-3">
         <label for="id" class="col-sm-2 col-form-label">Dentist: </label>
         <div class="col-sm-10">
             <InputSelect class="form-select" id="id" @bind-Value="@newAppointment.DentistId">
@@ -36,6 +37,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Create appointment</button>
+
 
 </EditForm>
 
@@ -76,12 +78,24 @@
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
         if (confirmed)
         {
-            var response = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
-            this.response = await response.Content.ReadAsStringAsync();
+            var request = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
+            this.response = await request.Content.ReadAsStringAsync();
+
         }
         else
         {
             NavManager.NavigateTo(Routes.Index);
         }
+    }
+
+    //Dialog
+    public bool IsVisible { get; set; } = true;
+    private void OnDialogBtnClick()
+    {
+        IsVisible = false;
+    }
+    private void OnOpenBtnClick()
+    {
+        IsVisible = true;
     }
 }

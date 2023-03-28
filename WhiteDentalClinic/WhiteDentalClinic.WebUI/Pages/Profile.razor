@@ -37,13 +37,15 @@ else
                                         <p class="text-muted">@currentProfile.Age</p>
                                     </div>
                                 </div>
-                                <h6>Projects</h6>
+                                    <h6>Other properties</h6>
                                 <hr class="mt-0 mb-4">
                                 <div class="row pt-1">
                                     <div class="col-6 mb-3">
-                                        <h6>Recent</h6>
-                                        <p class="text-muted">Lorem ipsum</p>
-                                    </div>
+                                        <h6>Edit</h6>
+                                            <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn-primary">
+                                                Click here
+                                            </Syncfusion.Blazor.Buttons.SfButton>
+                                        </div>
                                     <div class="col-6 mb-3">
                                             <h6>Appointments</h6>
                                             <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn-primary">
@@ -64,7 +66,6 @@ else
         </div>
     </div>
 </section>
-
 }
 
 
@@ -73,6 +74,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Edit = true;
         Guid currentRequestId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (CUSTOMER/DENTIST)
         try
         {
@@ -86,4 +88,6 @@ else
         }
     }
 
+    //button Edit
+    private bool Edit { get; set; } = true;
 }
