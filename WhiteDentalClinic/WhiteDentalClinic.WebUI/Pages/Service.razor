@@ -2,7 +2,74 @@
 @using WhiteDentalClinic.Shared.Models
 @inject HttpClient Http
 
-<!-- Service Start -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Services</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-heartbeat"></i></div>
+              <h4><a href="">Lorem Ipsum</a></h4>
+              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-pills"></i></div>
+              <h4><a href="">Sed ut perspiciatis</a></h4>
+              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-hospital-user"></i></div>
+              <h4><a href="">Magni Dolores</a></h4>
+              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-dna"></i></div>
+              <h4><a href="">Nemo Enim</a></h4>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-wheelchair"></i></div>
+              <h4><a href="">Dele cardo</a></h4>
+              <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-notes-medical"></i></div>
+              <h4><a href="">Divera don</a></h4>
+              <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    
+   <!-- End Services Section -->
+
+
+<!-- Service2 Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
         <div class="row g-5 mb-5">
@@ -14,7 +81,6 @@
             </div>
             <div class="col-lg-7">
                 <div class="section-title mb-5">
-                    <h5 class="position-relative d-inline-block text-primary text-uppercase">Our Services</h5>
                     <h1 class="display-5 mb-0">We Offer The Best Quality Dental Services</h1>
                 </div>
                 <div class="row g-5">
@@ -68,75 +134,7 @@
         </div>
     </div>
 </div>
-<!-- Service End -->
-<br />
-<br />
-<h3>Select your appointments:</h3>
-
-<div class="w-25 p-3">
-    <select class="form-control" @bind-value="dentistId" @onchange="HandleAppChange" @bind-value:event="oninput">
-        @foreach (var item in appointmentsByCustomer)
-        {
-            <option value="@item.DentistId">
-                @item.dateTime
-            </option>
-        }
-    </select>
-</div>
-
-
-<h5>The medical services of the dentist are:</h5>
-
-@if (medicalServicesByDentistId == null)
-{
-    <p><em>No medical service.</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var ms in medicalServicesByDentistId)
-            {
-                <tr>
-                    <td>@ms.Id</td>
-                    <td>@ms.Name</td>
-                    <td>@ms.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<!-- Service2 End -->
 
 @code {
-    private List<ResponseServices> medicalServicesByDentistId = new List<ResponseServices>();
-
-    private List<AppointmentResponse> appointmentsByCustomer = new List<AppointmentResponse>();
-
-    private Guid? dentistId = null;  // default a random ID dentist
-
-    //by default a customer ID
-    private Guid currentRequesCustomertId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
-
-    protected override async Task OnInitializedAsync()
-    {
-        //take all appointments
-        var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequesCustomertId}");
-        appointmentsByCustomer = tempAppByCustomerId.Result.ToList();
-
-    }
-
-    private async Task HandleAppChange()
-    {
-        //take all medical services by dentist ID
-        var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/MedicalService/all/dentist{dentistId}");
-        medicalServicesByDentistId = tempMedicalServices.Result.ToList();
-        Console.WriteLine(dentistId);
-    }
 }

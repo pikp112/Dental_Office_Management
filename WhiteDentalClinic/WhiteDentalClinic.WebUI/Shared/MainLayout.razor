@@ -1,33 +1,19 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavManager
 
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudIconButton OnClick="@(() => {NavManager.NavigateTo("/index");})"><img src="~/img/dentalcliniclogo.jpg" width="20" height="20" /></MudIconButton>
-            White Dental Clinic
-    </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Medium">
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+<!-- Responsive navbar-->
+<NavMenu />
 
-
-
-@code {
-    bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
+<!-- Page Content-->
+<div class="container px-4 px-lg-5">
+    <!-- Heading Row-->
+    <!-- Call to Action-->
+    <!-- Content Row-->
+    @Body
+</div>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white">Copyright &copy; White Dental Clinic 2023</p></div>
+</footer>
 }

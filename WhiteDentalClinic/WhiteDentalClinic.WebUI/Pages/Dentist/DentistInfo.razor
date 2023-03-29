@@ -1,0 +1,84 @@
+﻿@using WhiteDentalClinic.Shared.Models;
+@using static WhiteDentalClinic.WebUI.Pages.Dentist.Dentists;
+@attribute [Route(Routes.DentistInfo)]
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+
+
+<h3>Select your appointments:</h3>
+
+<div class="w-25 p-3">
+    <select class="form-control" @bind-value="dentistId" @onchange="HandleAppChange" @bind-value:event="oninput">
+        @foreach (var item in appointmentsByCustomer)
+        {
+            <option value="@item.DentistId">
+                @item.dateTime
+            </option>
+        }
+    </select>
+</div>
+
+<h5>The medical services of the dentist @selectedDentistDetails.FirstName @selectedDentistDetails.LastName are:</h5>
+
+@if (medicalServicesByDentistId == null)
+{
+    <p><em>No medical service.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ms in medicalServicesByDentistId)
+            {
+                <tr>
+                    <td>@ms.Id</td>
+                    <td>@ms.Name</td>
+                    <td>@ms.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h5>For more information, you can contact him at the email address: <i>@selectedDentistDetails.Email</i></h5>
+
+
+@code {
+    private List<ResponseServices> medicalServicesByDentistId = new List<ResponseServices>();
+
+    private List<AppointmentResponse> appointmentsByCustomer = new List<AppointmentResponse>();
+
+    private DentistResponseModel selectedDentistDetails = new DentistResponseModel();
+
+    private Guid? dentistId = null;  // default a random ID dentist
+
+    //by default a customer ID
+    private Guid currentRequesCustomertId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
+
+    protected override async Task OnInitializedAsync()
+    {
+        //take all appointments
+        var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequesCustomertId}");
+        appointmentsByCustomer = tempAppByCustomerId.Result.ToList();
+
+    }
+
+    private async Task HandleAppChange()
+    {
+        //take all medical services by dentist ID
+        var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/MedicalService/all/dentist{dentistId}");
+        medicalServicesByDentistId = tempMedicalServices.Result.ToList();
+
+        //take dentist detalist from backend
+        var tempDentistInfo = await Http.GetFromJsonAsync<ApiResult<DentistResponseModel>>($"api/Dentists/{dentistId}");
+        selectedDentistDetails = tempDentistInfo.Result;
+    }
+}

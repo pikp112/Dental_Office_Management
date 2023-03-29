@@ -3,65 +3,53 @@
 
 <PageTitle>Home</PageTitle>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-<MudCarousel Class="mud-width-full" Style="height:200px;" TData="object" AutoCycle="false">
-    <MudCarouselItem Color="@Color.Primary" Transition="Transition.Custom">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+<!-- Page Content-->
+<div class="container px-4 px-lg-5">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">Business Name or Tagline</h1>
+            <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
+            <a class="btn btn-primary" onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">Make an appointment</a>
         </div>
-    </MudCarouselItem>
-    <MudCarouselItem Color="@Color.Secondary" Transition="Transition.Custom">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
-        </div>
-    </MudCarouselItem>
-    <MudCarouselItem Transition="Transition.Custom">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
-        </div>
-    </MudCarouselItem>
-</MudCarousel>
-
-<br />
-
-<!-- About Start -->
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-7">
-                <div class="section-title mb-4">
-                    <h5 class="position-relative d-inline-block text-primary text-uppercase">About Us -----</h5>
-                    <h1 class="display-5 mb-0">The World's Best Dental Clinic That You Can Trust</h1>
+    </div>
+    <!-- Call to Action-->
+    <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
+    </div>
+    <!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card One</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
                 </div>
-                <h4 class="text-body fst-italic mb-4">Diam dolor diam ipsum sit. Clita erat ipsum et lorem stet no lorem sit clita duo justo magna dolore</h4>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna dolore erat amet</p>
-                <div class="row g-3">
-                    <div class="col-sm-6 wow zoomIn" data-wow-delay="0.3s">
-                        
-                        <h5 class="mb-3"><i class="fa fa-check-circle text-primary me-3"></i><MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline"> </MudIcon>Award Winning</h5>
-                        <h5 class="mb-3"><i class="fa fa-check-circle text-primary me-3"></i><MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline"> </MudIcon>Professional Staff</h5>
-                    </div>
-                    <div class="col-sm-6 wow zoomIn" data-wow-delay="0.6s">
-                        <h5 class="mb-3"><i class="fa fa-check-circle text-primary me-3"></i><MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline"> </MudIcon>24/7 Opened</h5>
-                        <h5 class="mb-3"><i class="fa fa-check-circle text-primary me-3"></i><MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline"> </MudIcon>Fair Prices</h5>
-                    </div>
-                </div>
-                <a onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})" class="btn btn-primary py-3 px-5 mt-4 wow zoomIn" data-wow-delay="0.6s">Make Appointment</a>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
             </div>
-            <div class="col-lg-5" style="min-height: 500px;">
-                <div class="position-relative h-100">
-                    <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s" src="~/img/aboutusimage.jpg" style="object-fit: cover;">
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card Two</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
                 </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card Three</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
             </div>
         </div>
     </div>
 </div>
-<!-- About End -->
 
-@*<Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">
-    My appointments
-</Syncfusion.Blazor.Buttons.SfButton>*@
 
 
 @code {
