@@ -69,20 +69,20 @@ namespace WhiteDentalClinic.Application.Services
         {
             var selectedDentist = _dentistRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
-            var userDentistId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");   //default only a single id
+/*            var userDentistId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");   //default only a single id. Check current dentist
 
             if (userDentistId != selectedDentist.Id)
             {
                 throw new BadRequestException("You can update only your email.");
-            }
+            }*/
 
             selectedDentist.Email = updateDentistModel.email;
 
-            selectedDentist.dentistServices.Add(new DentistServiceEntity
+/*            selectedDentist.dentistServices.Add(new DentistServiceEntity
             {
                 dentistId = id,
                 medicalServiceId = updateDentistModel.addAnotherMedicalServiceId   
-            });
+            });*/
 
             _dentistRepository.UpdateEntity(selectedDentist);
             _dentistServiceRepository.AddEntity(new DentistServiceEntity

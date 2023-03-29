@@ -5,6 +5,7 @@
         public Dentist()
         {
             CreatedAt = DateTime.Now;
+            dentistServices = new List<DentistServiceEntity>();
         }
         public Guid Id { get; set; }
         public string FirstName { get; set; }

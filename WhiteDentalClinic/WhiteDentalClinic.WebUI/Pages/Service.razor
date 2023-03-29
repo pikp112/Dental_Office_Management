@@ -74,7 +74,7 @@
 <h3>Select your appointments:</h3>
 
 <div class="w-25 p-3">
-    <select class="form-control" @bind="@dentistId">
+    <select class="form-control" @bind-value="dentistId" @onchange="HandleAppChange" @bind-value:event="oninput">
         @foreach (var item in appointmentsByCustomer)
         {
             <option value="@item.DentistId">
@@ -86,7 +86,6 @@
 
 
 <h5>The medical services of the dentist are:</h5>
-<h5>---Error: take only default dentist Id----</h5>
 
 @if (medicalServicesByDentistId == null)
 {
@@ -120,7 +119,7 @@ else
 
     private List<AppointmentResponse> appointmentsByCustomer = new List<AppointmentResponse>();
 
-    private Guid? dentistId = Guid.Parse("efed0811-4fc8-47fd-9d6e-c72fdca76fc5");  // default a random ID dentist
+    private Guid? dentistId = null;  // default a random ID dentist
 
     //by default a customer ID
     private Guid currentRequesCustomertId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
@@ -131,8 +130,13 @@ else
         var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequesCustomertId}");
         appointmentsByCustomer = tempAppByCustomerId.Result.ToList();
 
+    }
+
+    private async Task HandleAppChange()
+    {
         //take all medical services by dentist ID
         var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/MedicalService/all/dentist{dentistId}");
         medicalServicesByDentistId = tempMedicalServices.Result.ToList();
+        Console.WriteLine(dentistId);
     }
 }

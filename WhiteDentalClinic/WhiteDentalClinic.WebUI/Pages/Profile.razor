@@ -1,7 +1,9 @@
 ﻿@attribute [Route(Routes.Profile)]
+@using System.ComponentModel.DataAnnotations;
 @using WhiteDentalClinic.Shared.Models;
 @inject HttpClient Http
 @inject NavigationManager NavManager
+@inject IJSRuntime JsRuntime
 
 @if (currentProfile == null)
 {
@@ -9,54 +11,66 @@
 }
 else
 {
-<section class="vh-100" style="background-color: white;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-lg-6 mb-4 mb-lg-0">
-                <div class="card mb-3" style="border-radius: .5rem;">
-                    <div class="row g-0">
-                        <div class="col-md-4 gradient-custom text-center text-white"
+    <section class="vh-100" style="background-color: white;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-6 mb-4 mb-lg-0">
+                    <div class="card mb-3" style="border-radius: .5rem;">
+                        <div class="row g-0">
+                            <div class="col-md-4 gradient-custom text-center text-white"
                              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                  alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                            <h5>@currentProfile.FirstName</h5>
-                            <h5>@currentProfile.LastName</h5>
-                            <i class="far fa-edit mb-5"></i>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body p-4">
-                                <h6>Information</h6>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                                    <div class="col-6 mb-3">
-                                        <h6>Email</h6>
-                                        <p class="text-muted">@currentProfile.Email</p>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <h6>Age</h6>
-                                        <p class="text-muted">@currentProfile.Age</p>
-                                    </div>
-                                </div>
-                                    <h6>Other properties</h6>
-                                <hr class="mt-0 mb-4">
-                                <div class="row pt-1">
-                                    <div class="col-6 mb-3">
-                                        <h6>Edit</h6>
-                                            <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn-primary">
-                                                Click here
-                                            </Syncfusion.Blazor.Buttons.SfButton>
+                                <h5>@currentProfile.FirstName</h5>
+                                <h5>@currentProfile.LastName</h5>
+                                <i class="far fa-edit mb-5"></i>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body p-4">
+                                    <h6>Information</h6>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-6 mb-3">
+                                            <h6>Email</h6>
+                                            @if (IsTaskRunning==false)
+                                            {
+                                                <p class="text-muted">@currentProfile.Email</p>
+                                            }
+                                            else
+                                            {
+
+                                                <input class="form-control" value="@currentProfile.Email" @oninput="HandleEmail" />
+                                            }
                                         </div>
-                                    <div class="col-6 mb-3">
+                                        <div class="col-6 mb-3">
+                                            <h6>Age</h6>
+                                            <p class="text-muted">@currentProfile.Age</p>
+                                        </div>
+                                    </div>
+                                    <h6>Other properties</h6>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-6 mb-3">
+                                            <h6>Edit</h6>
+                                            <button id="changeButton" class="btn btn-primary" disabled=@IsTaskRunning @onclick="Clicked"> @ButtonName</button>
+
+@*                                         <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})">
+                                        Click here
+                                        </Syncfusion.Blazor.Buttons.SfButton>
+*@                                        
+                                        </div>
+                                        <div class="col-6 mb-3">
                                             <h6>Appointments</h6>
                                             <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn-primary">
                                                 Click here
                                             </Syncfusion.Blazor.Buttons.SfButton>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="d-flex justify-content-start">
+                                    <div class="d-flex justify-content-start">
                                         <MudIcon Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" />
                                         <MudIcon Icon="@Icons.Custom.Brands.Google" Title="Google" />
                                         <MudIcon Icon="@Icons.Custom.Brands.Reddit" Title="Reddit" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,8 +78,7 @@ else
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 }
 
 
@@ -74,7 +87,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Edit = true;
         Guid currentRequestId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (CUSTOMER/DENTIST)
         try
         {
@@ -88,6 +100,46 @@ else
         }
     }
 
-    //button Edit
-    private bool Edit { get; set; } = true;
+    //button Enable
+    bool IsTaskRunning = false;
+    string ButtonName = "Click Me";
+    async void Clicked()
+    {
+        IsTaskRunning = true;
+        ButtonName = "Disabled";
+        await OnButtonClick();
+
+        //IsTaskRunning = false; this to enable the button after the button click function executed
+        StateHasChanged();
+    }
+
+    Task OnButtonClick()
+    {
+        //here can perform buton click function
+        return Task.Delay(6000);
+    }
+
+    //new Email
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Wrong email")]
+    [EmailAddress(ErrorMessage = "Unvalid Email Address")]
+    public string newEmail { get; set; }
+
+    private EditContext editContext;
+
+    public async Task HandleEmail()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+
+        }
+        else
+        {
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+        }
+    }
 }

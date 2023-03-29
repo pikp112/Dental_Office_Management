@@ -33,6 +33,7 @@ namespace WhiteDentalClinic.Application.Services
 
         public IEnumerable<ResponseMedicalServices> GetAllMedicalServicesByDentistId(Guid requestDentistId)
         {
+            //medical services by input dentist ID
             var listMedicalServicesById = _dentistServiceRepository.GetAll().Where(x => x.dentistId == requestDentistId);
 
             var tempId = listMedicalServicesById.Select(x => x.medicalServiceId).ToList(); //list ID medical services
