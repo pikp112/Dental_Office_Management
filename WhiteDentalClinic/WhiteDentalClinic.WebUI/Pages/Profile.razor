@@ -11,67 +11,115 @@
 }
 else
 {
-    <section class="vh-100" style="background-color: white;">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-lg-6 mb-4 mb-lg-0">
-                    <div class="card mb-3" style="border-radius: .5rem;">
-                        <div class="row g-0">
-                            <div class="col-md-4 gradient-custom text-center text-white"
-                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                 alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                                <h5>@currentProfile.FirstName</h5>
-                                <h5>@currentProfile.LastName</h5>
-                                <i class="far fa-edit mb-5"></i>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body p-4">
-                                    <h6>Information</h6>
-                                    <hr class="mt-0 mb-4">
-                                    <div class="row pt-1">
-                                        <div class="col-6 mb-3">
-                                            <h6>Email</h6>
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-4 mb-sm-5">
+                    <div class="card card-style1 border-0">
+                        <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="...">
+                                </div>
+                                <div class="col-lg-6 px-xl-10">
+                                    <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                        <h3 class="h2 text-white mb-0">@currentProfile.FirstName @currentProfile.LastName</h3>
+                                    </div>
+                                    <ul class="list-unstyled mb-1-9">
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
+                                        <!--if is a customer show customer....else dentist (will be)-->
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Experience:</span> @currentProfile.Age</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
                                             @if (IsTaskRunning==false)
                                             {
-                                                <p class="text-muted">@currentProfile.Email</p>
+                                                @currentProfile.Email
                                             }
                                             else
                                             {
 
-                                                <input class="form-control" value="@currentProfile.Email" @oninput="HandleEmail" />
+                                                <input class="form-control" value="@currentProfile.Email" @oninput="HandleEmail"/>
                                             }
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <h6>Age</h6>
-                                            <p class="text-muted">@currentProfile.Age</p>
-                                        </div>
-                                    </div>
-                                    <h6>Other properties</h6>
-                                    <hr class="mt-0 mb-4">
+                                        </li>
+                                        <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Phone:</span> 0758956148</li>
+                                    </ul>
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
-                                            <h6>Edit</h6>
+                                            <h6>   Edit</h6>
                                             <button id="changeButton" class="btn btn-primary" disabled=@IsTaskRunning @onclick="Clicked"> @ButtonName</button>
-
-@*                                         <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})">
-                                        Click here
-                                        </Syncfusion.Blazor.Buttons.SfButton>
-*@                                        
                                         </div>
                                         <div class="col-6 mb-3">
                                             <h6>Appointments</h6>
-                                            <Syncfusion.Blazor.Buttons.SfButton @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn-primary">
+                                            <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
                                                 Click here
-                                            </Syncfusion.Blazor.Buttons.SfButton>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start">
+
+                                    <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
                                         <MudIcon Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" />
                                         <MudIcon Icon="@Icons.Custom.Brands.Google" Title="Google" />
                                         <MudIcon Icon="@Icons.Custom.Brands.Reddit" Title="Reddit" />
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-4 mb-sm-5">
+                    <div>
+                        <span class="section-title text-primary mb-3 mb-sm-4">About Me</span>
+                        <p>@currentProfile.FirstName @currentProfile.LastName necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+                        <p class="mb-0">Clita ipsum magna kasd rebum at ipsum amet dolor justo dolor est magna stet eirmod. Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 mb-4 mb-sm-5">
+                            <div class="mb-4 mb-sm-5">
+                                <span class="section-title text-primary mb-3 mb-sm-4">Skill</span>
+                                <div class="progress-text">
+                                    <div class="row">
+                                        <div class="col-6">Driving range</div>
+                                        <div class="col-6 text-end">80%</div>
                                     </div>
                                 </div>
+                                <div class="custom-progress progress progress-medium mb-3" style="height: 4px;">
+                                    <div class="animated custom-bar progress-bar slideInLeft bg-secondary" style="width:80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="10" role="progressbar"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <div class="row">
+                                        <div class="col-6">Short Game</div>
+                                        <div class="col-6 text-end">90%</div>
+                                    </div>
+                                </div>
+                                <div class="custom-progress progress progress-medium mb-3" style="height: 4px;">
+                                    <div class="animated custom-bar progress-bar slideInLeft bg-secondary" style="width:90%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" role="progressbar"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <div class="row">
+                                        <div class="col-6">Side Bets</div>
+                                        <div class="col-6 text-end">50%</div>
+                                    </div>
+                                </div>
+                                <div class="custom-progress progress progress-medium mb-3" style="height: 4px;">
+                                    <div class="animated custom-bar progress-bar slideInLeft bg-secondary" style="width:50%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" role="progressbar"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <div class="row">
+                                        <div class="col-6">Putting</div>
+                                        <div class="col-6 text-end">60%</div>
+                                    </div>
+                                </div>
+                                <div class="custom-progress progress progress-medium" style="height: 4px;">
+                                    <div class="animated custom-bar progress-bar slideInLeft bg-secondary" style="width:60%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" role="progressbar"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="section-title text-primary mb-3 mb-sm-4">Education</span>
+                                <p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
+                                <p class="mb-1-9">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.</p>
+
                             </div>
                         </div>
                     </div>

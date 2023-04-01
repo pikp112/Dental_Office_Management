@@ -18,45 +18,43 @@
 }
 else
 {
-    @*        <div class="col-lg-12 control-section">
-        <div class="content-wrapper">
+    <!-- ======= Doctors Section ======= -->
+    <section id="doctors" class="doctors">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Doctors</h2>
+                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            </div>
+
             <div class="row">
-                <SfGrid @ref="Grid" DataSource="@GridData" AllowFiltering="true" AllowPaging="true">
-                    <GridColumns>
-                        <GridColumn Field=@dentist.Id HeaderText="Dentist Id" Width="120"></GridColumn>
-                        <GridColumn Field=@dentist.FirstName HeaderText="First Name" Width="150"></GridColumn>
-                    </GridColumns>
-                </SfGrid>
+                @foreach (var dentist in dentists.OrderBy(a => a.FirstName))
+                {
+                    <div class="col-lg-6 mt-4">
+                        <div class="member d-flex align-items-start">
+                            <div class="pic"><img src="img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
+                            <div class="member-info">
+                                <h4>@dentist.FirstName @dentist.LastName</h4>
+                                <span><button class="btn btn-primary" onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">Check availability</button></span>
+                                <p>Age: @dentist.Age</p>
+                                <p>Email address: @dentist.Email</p>
+                                <div class="social">
+                                    <a href=""><i class="ri-twitter-fill"></i></a>
+                                    <a href=""><i class="ri-facebook-fill"></i></a>
+                                    <a href=""><i class="ri-instagram-fill"></i></a>
+                                    <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
             </div>
         </div>
-    </div>
-*@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Age</th>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var dentist in dentists.OrderBy(a=>a.FirstName))
-            {
-                <tr>
-                    <td>@dentist.Id</td>
-                    <td>@dentist.FirstName</td>
-                    <td>@dentist.LastName</td>
-                    <td>@dentist.Age</td>
-                    <td>@dentist.Email</td>
-                    <td><button class="btn btn-primary" onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">Check availability</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    </section>
+    <!-- End Doctors Section -->
 }
+
 
 @code {
     private List<DentistResponseModel> dentists = new List<DentistResponseModel>();

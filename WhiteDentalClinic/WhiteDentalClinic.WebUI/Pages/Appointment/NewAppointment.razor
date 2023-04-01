@@ -9,50 +9,63 @@
 @inject NavigationManager NavManager
 
 
-<h2>Make an appointment:</h2>
 <br />
 <h5>Select date and time for your appointment:</h5>
 <br />
-@*Add Placeholder="Choose a Date Range" in below code when no value is set to DateTimePicker*@
-
-
 
 <EditForm class="d-flex flex-column align-items-left" Model="@newAppointment" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <Syncfusion.Blazor.Calendars.SfDateTimePicker TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value='@newAppointment.dateTime'
-                                                  StrictMode=true Placeholder="Select a date and time">
-    </Syncfusion.Blazor.Calendars.SfDateTimePicker>
-
+    <FluentValidationValidator />
     <div class="w-25 p-3">
         <label for="id" class="col-sm-2 col-form-label">Dentist: </label>
         <div class="col-sm-10">
-            <InputSelect class="form-select" id="id" @bind-Value="@newAppointment.DentistId">
+            <InputSelect class="form-select" id="id" ValueExpression="@( () => newAppointment.DentistId)"
+                                            Value="@newAppointment.DentistId"
+                         ValueChanged="@( (Guid value) => {newAppointment.DentistId=value;HandleDentistApp(value);})">
                 @foreach (var dentist in dentists)
                 {
                     <option value="@dentist.Id">@dentist.FirstName @dentist.LastName</option>
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => newAppointment.DentistId)" />
         </div>
     </div>
-
+    <Syncfusion.Blazor.Calendars.SfDateTimePicker TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value='@newAppointment.dateTime'
+                                                  StrictMode=true Placeholder="Select a date and time" 
+                                                  ShowTodayButton="true" 
+                                                  ShowClearButton="true">
+                                                  <DateTimePickerEvents TValue="DateTime?" OnRenderDayCell="@onRenderDayCellHandler"></DateTimePickerEvents>
+                                                  <ValidationMessage For="@(() => newAppointment.dateTime)"/>
+    </Syncfusion.Blazor.Calendars.SfDateTimePicker>
+    <br />
     <button type="submit" class="btn btn-primary">Create appointment</button>
-
-
 </EditForm>
-
+<br/>
 <h4> Your appointment is: @response</h4>
 
 @code {
     private List<DentistResponseModel> dentists = new List<DentistResponseModel>();
 
+    private List<DateTime> appointmentsSelectedDentist = new List<DateTime>();
     protected override async Task OnInitializedAsync()
     {
-        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists/all");
-        dentists = temp.Result.ToList();
+        var tempDentistsList = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists/all");
+        dentists = tempDentistsList.Result.ToList();
+
     }
 
-    private CreateAppointmentRequestModel newAppointment = new CreateAppointmentRequestModel
+    protected async Task HandleDentistApp(Guid dentistIdSelected)
+    {
+        //checked
+        var stringDentistIdSelected = dentistIdSelected.ToString();
+        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointment/allapp/dentist{stringDentistIdSelected}");
+        foreach (var item in tempAppointmentsSelectedDentist.Result.ToList())
+        {
+            appointmentsSelectedDentist.Add(item.dateTime);
+        }
+
+    }
+
+    private RequestAppointment newAppointment = new RequestAppointment
         {
             CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
         };
@@ -60,17 +73,27 @@
     private string response = string.Empty;
 
     public DateTime MinDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Today.AddDays(1).Day, 02, 00, 00);
-    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Today.AddYears(2).Year, DateTime.Now.Month, 25, 02, 00, 00);
+    public DateTime MaxDate { get; set; } = new DateTime(DateTime.Today.AddYears(2).Year, DateTime.Now.Month, 25, 12, 00, 00);
     public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
 
-
-    public class CreateAppointmentRequestModel
+    public void onRenderDayCellHandler(RenderDayCellEventArgs args)
     {
-        public Guid Id = Guid.NewGuid();
-        [Required(ErrorMessage = "Please select again the date and time.")]
-        public DateTime? dateTime { get; set; }
-        public Guid CustomerId { get; set; }
-        public Guid DentistId { get; set; }
+        if (args.Date.DayOfWeek.ToString() == "Saturday" || args.Date.DayOfWeek.ToString() == "Sunday")
+        {
+            args.IsDisabled = true;
+        }
+        //implement only dentist available dates
+        foreach (var appRegister in appointmentsSelectedDentist)
+        {
+            if (appRegister.Date.DayOfYear == args.Date.DayOfYear)
+            {
+                if (appRegister.Date.TimeOfDay == args.Date.TimeOfDay)
+                {
+                    Console.WriteLine(appRegister.Date + " first IF: arg.date is " + args.Date);
+                    args.IsDisabled = true;
+                }
+            }
+        }
     }
 
     public async Task HandleValidSubmit()
