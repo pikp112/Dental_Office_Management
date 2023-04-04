@@ -30,7 +30,7 @@
                        class="formbold-form-input" />
             </div>
             <div class="formbold-mb-5">
-                <label for="phone" class="formbold-form-label"> Select a dentist </label>
+                <label for="dentist" class="formbold-form-label"> Select a dentist </label>
                 <select name="dentistId"
                         id="dentistId"
                         placeholder="Select a dentist"
@@ -47,6 +47,20 @@
             </div>
             @if (@newAppointment.DentistId != default(Guid))
             {
+                <div class="formbold-mb-5">
+                    <label for="medicalService" class="formbold-form-label"> Select a medical service </label>
+                    <select name="medicalServiceId"
+                        id="medicalServiceId"
+                        placeholder="Select a medical service"
+                        class="form-control"><!--here need to implement a new response and do a bind by his ID to newAppointment.MedServiceId-->
+                        @foreach (var medService in medicalServicesBySelectedDentist)
+                        {
+                            <option value="none" selected disabled hidden>Select an option</option>
+                            <option value="@medService.Id">@medService.Name</option>
+                        }
+                    </select>
+                    <ValidationMessage For="@(() => newAppointment.DentistId)" />
+                </div>
                 <div class="flex flex-wrap formbold--mx-3">
                     <div class="w-full sm:w-half formbold-px-3">
                         <div class="formbold-mb-5 w-full">
@@ -95,7 +109,7 @@
 
 @code {
     private List<DentistResponseModel> dentists = new List<DentistResponseModel>();
-
+    private List<ResponseServices> medicalServicesBySelectedDentist = new List<ResponseServices>();
     private List<DateTime> appointmentsSelectedDentist = new List<DateTime>();
     //set min and max date
     private DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Today.AddDays(1).Day);
@@ -123,9 +137,9 @@
             CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
         };
 
-    //check dentist's list
     protected override async Task OnInitializedAsync()
     {
+        //take all dentists
         var tempDentistsList = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists");
         dentists = tempDentistsList.Result.ToList();
     }
@@ -145,6 +159,14 @@
             responseDate.Add(appDateTime.Date);
             responseTime.Add(appDateTime.TimeOfDay);
         }
+
+        //take medical services by dentist id
+        var tempMedicalServicesBySelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"api/Dentists/medicalservices{stringDentistIdSelected}");
+        medicalServicesBySelectedDentist = tempMedicalServicesBySelectedDentist.Result.ToList();
+        foreach (var item in medicalServicesBySelectedDentist)
+        {
+            Console.WriteLine(item.Id);
+        }
     }
 
 
@@ -156,7 +178,6 @@
             if (date.Date == requestDate.Date)
             {
                 CheckTime(requestTime);
-                Console.WriteLine($"checked date {date.Date} == {requestDate.Date}");
             }
         }
         void CheckTime(DateTime inputTime)
@@ -165,7 +186,6 @@
             {
                 if (time == requestTime.TimeOfDay)
                 {
-                    Console.WriteLine($"checked time {time} == {requestTime.TimeOfDay}");
                     this.ExistAppointment = true;
                     this.response = this.rejectAppointment;
                     NavManager.NavigateTo(Routes.NewAppointment);
@@ -175,7 +195,6 @@
         }
         if (ExistAppointment == false)
         {
-            Console.WriteLine("asdaasfas");
             newAppointment.dateTime = requestDate.Date.Add(requestTime.TimeOfDay);
             Console.WriteLine(newAppointment.dateTime);
             bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
@@ -183,7 +202,6 @@
             {
                 var request = await Http.PostAsJsonAsync("/api/Appointments", newAppointment);
                 this.response = await request.Content.ReadAsStringAsync();
-
             }
             else
             {

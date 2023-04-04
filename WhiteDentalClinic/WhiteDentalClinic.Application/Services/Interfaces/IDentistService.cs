@@ -1,4 +1,5 @@
 ﻿using WhiteDentalClinic.Application.Models.Dentist;
+using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 
 namespace WhiteDentalClinic.Application.Services.Interfaces
 {
@@ -9,5 +10,7 @@ namespace WhiteDentalClinic.Application.Services.Interfaces
         ResponseDentistModel Create(RequestCreateDentistModel requestDentistModel);
         ResponseUpdateDentistModel Update(Guid id, RequestUpdateDentistModel updateDentistModel);
         ResponseDentistModel DeleteDentist(Guid id);
+        IEnumerable<ResponseMedicalServices> GetMedicalServicesByDentistId(Guid id);
+
     }
 }

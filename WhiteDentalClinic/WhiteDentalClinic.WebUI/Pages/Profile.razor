@@ -169,7 +169,7 @@ else
 
     //new Email
     [Required(AllowEmptyStrings = false, ErrorMessage = "Wrong email")]
-    [EmailAddress(ErrorMessage = "Unvalid Email Address")]
+    [EmailAddress(ErrorMessage = "Invalid Email Address")]
     public string newEmail { get; set; }
 
     private EditContext editContext;

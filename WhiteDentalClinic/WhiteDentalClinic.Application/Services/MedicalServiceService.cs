@@ -33,6 +33,7 @@ namespace WhiteDentalClinic.Application.Services
 
         public IEnumerable<ResponseMedicalServices> GetAllByDentistId(Guid requestDentistId)
         {
+            //to delete? is something in DentistService
             //medical services by input dentist ID
             var listMedicalServicesById = _dentistServiceRepository.GetAll().Where(x => x.DentistId == requestDentistId);
 

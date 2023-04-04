@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WhiteDentalClinic.Application.Exceptions;
 using WhiteDentalClinic.Application.Models.Dentist;
+using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
 using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
@@ -15,16 +16,19 @@ namespace WhiteDentalClinic.Application.Services
         private readonly IMapper _mapper;
         private readonly IDentistRepository _dentistRepository;
         private readonly IDentistServiceRepository _dentistServiceRepository;
+        private readonly IMedicalServiceRepository _medicalServiceRespository;
         public DentistService(
-            IDentistRepository dentistRepository, 
+            IDentistRepository dentistRepository,
             IMapper mapper,
             IDentistServiceRepository dentistServiceRepository,
+            IMedicalServiceRepository medicalServiceRepository,
             IClaimService claimService)
         {
             _dentistRepository = dentistRepository;
             _mapper = mapper;
-            _claimService=claimService;
+            _claimService = claimService;
             _dentistServiceRepository = dentistServiceRepository;
+            _medicalServiceRespository = medicalServiceRepository;
         }
         public IEnumerable<ResponseDentistModel> GetAll()
         {
@@ -69,20 +73,20 @@ namespace WhiteDentalClinic.Application.Services
         {
             var selectedDentist = _dentistRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
-/*            var userDentistId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");   //default only a single id. Check current dentist
+            /*            var userDentistId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");   //default only a single id. Check current dentist
 
-            if (userDentistId != selectedDentist.Id)
-            {
-                throw new BadRequestException("You can update only your email.");
-            }*/
+                        if (userDentistId != selectedDentist.Id)
+                        {
+                            throw new BadRequestException("You can update only your email.");
+                        }*/
 
             selectedDentist.Email = updateDentistModel.Email;
 
-/*            selectedDentist.dentistServices.Add(new DentistServiceEntity
-            {
-                dentistId = id,
-                medicalServiceId = updateDentistModel.addAnotherMedicalServiceId   
-            });*/
+            /*            selectedDentist.dentistServices.Add(new DentistServiceEntity
+                        {
+                            dentistId = id,
+                            medicalServiceId = updateDentistModel.addAnotherMedicalServiceId   
+                        });*/
 
             _dentistRepository.UpdateEntity(selectedDentist);
             _dentistServiceRepository.AddEntity(new DentistServiceEntity
@@ -96,6 +100,36 @@ namespace WhiteDentalClinic.Application.Services
             {
                 Id = id
             };
+        }
+
+
+        public IEnumerable<ResponseMedicalServices> GetMedicalServicesByDentistId(Guid id)
+        {
+            List<Guid> listIdMedicalServices = new List<Guid>();
+            foreach (var item in _dentistServiceRepository.GetAll())
+            {
+                if (item.DentistId == id)
+                {
+                    listIdMedicalServices.Add(item.MedicalServiceId);
+                }
+            }
+            List<ResponseMedicalServices> allMedicalServicesByDentistId = new List<ResponseMedicalServices>();
+            for (int i = 0; i <= listIdMedicalServices.Count; i++)
+            {
+                foreach (var medicalService in _medicalServiceRespository.GetAll())
+                {
+                    if (medicalService.Id == listIdMedicalServices.ElementAtOrDefault(i))
+                    {
+                        allMedicalServicesByDentistId.Add(new ResponseMedicalServices
+                        {
+                            Name = medicalService.Name,
+                            Price = medicalService.Price,
+                            Id = medicalService.Id
+                        });
+                    }
+                }
+            }
+            return allMedicalServicesByDentistId;
         }
     }
 }

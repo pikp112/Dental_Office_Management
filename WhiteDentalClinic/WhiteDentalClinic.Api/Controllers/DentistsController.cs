@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhiteDentalClinic.Application.Models;
 using WhiteDentalClinic.Application.Models.Dentist;
+using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
 
 namespace WhiteDentalClinic.Api.Controllers
@@ -43,6 +44,8 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
+
+
         [HttpPost]
         public IActionResult CreateDentist(RequestCreateDentistModel dentistModel)
         {
@@ -55,6 +58,9 @@ namespace WhiteDentalClinic.Api.Controllers
                 return BadRequest(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
+
+
+
 
         [HttpPut]
         public IActionResult UpdateDentist (Guid id, RequestUpdateDentistModel dentistModel)
@@ -73,6 +79,9 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
+
+
+
         [HttpDelete]
         public IActionResult DeleteDentist(Guid id)
         {
@@ -88,6 +97,21 @@ namespace WhiteDentalClinic.Api.Controllers
                 }
                 return BadRequest(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
             }
+        }
+
+
+        [HttpGet("medicalservices{id}")]
+        public IActionResult GetMedicalServices(Guid id)
+        {
+            try
+            {
+                return Ok(ApiGenericsResult<IEnumerable<ResponseMedicalServices>>.Success(_dentistService.GetMedicalServicesByDentistId(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiGenericsResult<ResponseMedicalServices>.Failure(new[] { $"{ex.Message}" }));
+            }
+
         }
     }
 }
