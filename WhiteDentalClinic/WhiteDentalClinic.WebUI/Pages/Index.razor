@@ -1,13 +1,104 @@
-﻿@page "/home"
+﻿@attribute [Route(Routes.Index)]
 @inject NavigationManager NavManager
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<!-- Page Content-->
+<div class="container px-4 px-lg-5">
+    <!-- Heading Row-->
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="img/homeImage.jpg"/></div>
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">White Dental Clinic</h1>
+            <p>Our ultimate objective is to help our patients achieve their desired outcomes and improve their dental health and to educate them concerning quality dentistry.<br />
+                We provide a range of cosmetic treatments including facial aesthetics, natural tooth coloured fillings, highly aesthetic crowns and veneers and tooth whitening.</p>
+            <a class="btn btn-primary" onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">Make an appointment</a>
+        </div>
+    </div>
+    <!-- Call to Action-->
+    <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card-body">
+            <table border="0" class="responsive-table fixed-table" style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <span id="idfcb7ed05-0d72-11e7-ab9f-bdbf745b20a3" class="outer-image-wrapper   outer-image-wrapper hvr-grow xs-img" style="display:block;">
+                                    <span id="fcb7ed05-0d72-11e7-ab9f-bdbf745b20a3" class="frame  " style="width:300px;height:80px;display:block;">
 
-Welcome to your new app.
+                                        <img class=" img-responsive" src="//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s300" style="width:300px;" alt="" title="" draggable="false" sizes="(min-width:1200px) 300px, (min-width:992px) 300px, (min-width:768px) 300px, 100vw" srcset="//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s50 50w,//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s150 150w,//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s300 300w,//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s600 600w,//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s1200 1200w,//lh3.googleusercontent.com/7OhTTUsJcJBKstq-HDYWaMfKpgfxvH3QrgwT-WHTXoV4XS2LeCIx0nhUwHoAcKvCCwIJCulUP2yCv0hqowGrU_pz=s1600 1600w">
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+                                    </span>
+                                </span>
+                                <br>
+                                <span style="font-size:16px;"><strong>Highly trained dental team</strong></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <span id="idfcb86680-0d72-11e7-938d-bdbf745b20a3" class="outer-image-wrapper   outer-image-wrapper hvr-grow xs-img" style="display:block;">
+                                    <span id="fcb86680-0d72-11e7-938d-bdbf745b20a3" class="frame  " style="width:300px;height:80px;display:block;">
 
-<button class="btn btn-primary btn-lg" @onclick="@(() => { NavManager.NavigateTo("/makeappointment");})"><h2>Make an Appointment</h2></button>
+                                        <img class=" img-responsive" src="//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s300" style="width:300px;" alt="" title="" draggable="false" sizes="(min-width:1200px) 300px, (min-width:992px) 300px, (min-width:768px) 300px, 100vw" srcset="//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s50 50w,//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s150 150w,//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s300 300w,//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s600 600w,//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s1200 1200w,//lh3.googleusercontent.com/4zJf1Zs8PLC589sz47-PnzSyMVsS9pMh3qjmvafSdoksD3kln7vazbofHx3zI9vKQ9Jr48u8YqhYoX4BvRjaiU4YMQ=s1600 1600w">
 
+                                    </span>
+                                </span>
+                                <br>
+                                <span style="font-size:16px;"><strong>Extensive line of Dental and Facial services</strong></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;">
+                                <span id="idfcab9dd7-0d72-11e7-9b35-bdbf745b20a3" class="outer-image-wrapper   outer-image-wrapper hvr-grow xs-img" style="display:block;">
+                                    <span id="fcab9dd7-0d72-11e7-9b35-bdbf745b20a3" class="frame  " style="width:300px;height:80px;display:block;">
+
+                                        <img class=" img-responsive" src="//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s300" style="width:300px;" alt="" title="" draggable="false" sizes="(min-width:1200px) 300px, (min-width:992px) 300px, (min-width:768px) 300px, 100vw" srcset="//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s50 50w,//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s150 150w,//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s300 300w,//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s600 600w,//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s1200 1200w,//lh3.googleusercontent.com/sK6sxL2zbZ_B6A6By2fS9EPaE_5OOJKzRDiDXj_5GaBV_losxyK8ghrFo6qfhI53soh5lxdDNfV1fGWXwqZdyy8H=s1600 1600w">
+
+                                    </span>
+                                </span>
+                                <br>
+                                <span style="font-size:16px;"><strong>Committed to getting the right result for you</strong></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Content Row-->
+    <div class="row gx-4 gx-lg-5">
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card One</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card Two</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card Three</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+   
+}

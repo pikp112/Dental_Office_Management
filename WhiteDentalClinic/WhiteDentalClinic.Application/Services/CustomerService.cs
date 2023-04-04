@@ -2,9 +2,8 @@
 using WhiteDentalClinic.Application.Exceptions;
 using WhiteDentalClinic.Application.Models.Customer;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
-using WhiteDentalClinic.DataAccess.Repositories.CustomerRepository;
-using WhiteDentalClinic.DataAccess.Repositories.MedicalServiceRepository;
+using WhiteDentalClinic.DataAccess.Entities;
+using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 using WhiteDentalClinic.Shared.Services;
 using UpdateCustomerResponseModel = WhiteDentalClinic.Application.Models.Customer.UpdateCustomerResponseModel;
 
@@ -46,9 +45,9 @@ namespace WhiteDentalClinic.Application.Services
         {
             var selectedCustomer = _customerRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
-            var userCustomerId = _claimService.GetUserId();
+            var userCustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");  //need to change with current customer id
 
-            if (userCustomerId != selectedCustomer.Id.ToString())
+            if (userCustomerId != selectedCustomer.Id)
             {
                 throw new BadRequestException("You can update only your email.");
             }

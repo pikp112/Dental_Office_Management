@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WhiteDentalClinic.Application.Models;
 using WhiteDentalClinic.Application.Models.AppointmentModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
@@ -67,7 +66,7 @@ namespace WhiteDentalClinic.Api.Controllers
 
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult CreateAppointment(CreateAppointmentRequestModel requestAppointmentModel) 
         {
             try
@@ -80,7 +79,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete]
         public IActionResult DeleteAppointment(Guid appointmentId)
         {
             try

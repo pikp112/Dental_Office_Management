@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using WhiteDentalClinic.DataAccess.Entities.AppointmentEntity;
-using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
-using WhiteDentalClinic.DataAccess.Entities.DentistEntity;
-using WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity;
-using WhiteDentalClinic.DataAccess.Entities.ServiceDentist;
+using WhiteDentalClinic.DataAccess.Entities;
 
 namespace WhiteDentalClinic.DataAccess
 {

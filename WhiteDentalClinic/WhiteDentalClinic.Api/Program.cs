@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using WhiteDentalClinic.Application.MappingProfiles;
 using WhiteDentalClinic.Application.Services;
 using WhiteDentalClinic.DataAccess;
-using WhiteDentalClinic.DataAccess.Repositories.CustomerRepository;
-using WhiteDentalClinic.DataAccess.Repositories.DentistRepository;
 using WhiteDentalClinic.Shared.Services;
-using WhiteDentalClinic.DataAccess.Repositories.MedicalServiceRepository;
-using WhiteDentalClinic.DataAccess.Repositories.AppointmentRepository;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Repositories.DentistServiceRepository;
-using WhiteDentalClinic.DataAccess.Repositories.DentistRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
+using WhiteDentalClinic.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +37,7 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 builder.Services.AddScoped<ITemplateService, TemplateService>();
 
-builder.Services.AddTransient<IClaimService, ClaimService>();   
+builder.Services.AddTransient<IClaimService, ClaimService>();
 
 builder.Services.AddAutoMapper(typeof(CustomerProfile));
 builder.Services.AddAutoMapper(typeof(DentistProfile));
@@ -54,8 +51,26 @@ builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 // Add db connection
 builder.Services.AddDbContext<ApiDbTempContext>(options =>
 {
-    options.UseSqlServer("Data Source=(LocalDb)\\MSSQLLocalDb;Initial Catalog=WhiteDentalClinic;Integrated Security = True");
+    options.UseSqlServer(builder.Configuration["Database:ConnectionString"]);
 });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;       //sa foloseasca Jwt
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,     //request de oriunde
+        ValidateAudience = false,   //request de oriunde
+        ValidateLifetime = true,     // expire date
+        ValidateIssuerSigningKey= true,    //check the key
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfiguration:SecretKey"]))
+    };
+});
+
 
  var app = builder.Build();
 
@@ -68,6 +83,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

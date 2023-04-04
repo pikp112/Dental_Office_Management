@@ -1,0 +1,43 @@
+﻿@inject HttpClient Http
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using WhiteDentalClinic.Shared.Models
+
+@if (appointmentsByUser == null)
+{
+    <p><em>No customer appointments found.</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <th>Date time</th>
+                <th>Customer ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in appointmentsByUser)
+            {
+                <tr>
+                    <td>@app.Id</td>
+                    <td>@app.dateTime</td>
+                    <td>@app.DentistId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<AppointmentResponse> appointmentsByUser = new List<AppointmentResponse>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        //by default a customer ID
+        Guid currentRequestId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2");    //by default an ID but need to be modify (Dentist / Customer!)
+        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequestId}");
+        appointmentsByUser = temp.Result.ToList();
+    }
+}

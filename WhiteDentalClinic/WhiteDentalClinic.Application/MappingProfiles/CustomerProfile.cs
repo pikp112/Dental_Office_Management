@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WhiteDentalClinic.Application.Models.Customer;
-using WhiteDentalClinic.Application.Services;
-using WhiteDentalClinic.DataAccess.Entities.CustomerEntity;
+using WhiteDentalClinic.DataAccess.Entities;
 
 namespace WhiteDentalClinic.Application.MappingProfiles
 {

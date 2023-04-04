@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WhiteDentalClinic.Application.Models;
 using WhiteDentalClinic.Application.Models.Customer;
 using WhiteDentalClinic.Application.Services.Interfaces;
@@ -28,7 +27,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpGet("get{id:guid}")]
+        [HttpGet("{id:guid}")]
         public IActionResult GetCustomerById(Guid id)
         {
             try
@@ -45,7 +44,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult CreateCustomer(CreateCustomerRequestModel requestCustomerModel) 
         {
             try
@@ -57,7 +56,7 @@ namespace WhiteDentalClinic.Api.Controllers
                 return BadRequest(ApiGenericsResult<CustomerResponseModel>.Failure(new[] {$"{ex.Message}"})); 
             }
         }
-        [HttpPut("update{id:guid}")]
+        [HttpPut]
         public IActionResult UpdateCustomer(Guid id, UpdateCustomerRequestModel updateCustomerModel)
         {
             try
@@ -74,7 +73,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete]
         public IActionResult DeleteCustomer(Guid id)
         {
             try

@@ -1,0 +1,220 @@
+﻿@attribute [Route(Routes.NewAppointment)]
+@inject HttpClient Http
+@using Syncfusion.Blazor.Calendars
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+@using WhiteDentalClinic.Shared.Models
+@using static WhiteDentalClinic.WebUI.Pages.Dentist.Dentists;
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
+
+<div class="formbold-main-wrapper">
+    <div class="formbold-form-wrapper">
+        <EditForm action="https://formbold.com/s/FORM_ID" method="POST"
+                  Model="@newAppointment" OnValidSubmit="@HandleValidSubmit">
+                  @*<FluentValidationValidator />*@
+            <div class="formbold-mb-5">
+                <label for="name" class="formbold-form-label"> Full Name </label>
+                <input type="text"
+                       name="name"
+                       id="name"
+                       placeholder="Full Name"
+                       class="formbold-form-input" />
+            </div>
+            <div class="formbold-mb-5">
+                <label for="email" class="formbold-form-label"> Email Address </label>
+                <input type="email"
+                       name="email"
+                       id="email"
+                       placeholder="Enter your email"
+                       class="formbold-form-input" />
+            </div>
+            <div class="formbold-mb-5">
+                <label for="phone" class="formbold-form-label"> Select a dentist </label>
+                <select name="dentistId"
+                        id="dentistId"
+                        placeholder="Select a dentist"
+                        class="form-control"
+                        onselect="@HandleDentistApp(newAppointment.DentistId)"
+                        @bind="@newAppointment.DentistId" >
+                    @foreach (var dentist in dentists)
+                    {
+                        <option value="none" selected disabled hidden>Select an option</option>
+                        <option value="@dentist.Id">@dentist.FirstName @dentist.LastName</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => newAppointment.DentistId)" />
+            </div>
+            @if (@newAppointment.DentistId != default(Guid))
+            {
+                <div class="flex flex-wrap formbold--mx-3">
+                    <div class="w-full sm:w-half formbold-px-3">
+                        <div class="formbold-mb-5 w-full">
+                            <label for="date" class="formbold-form-label"> Date </label>
+                            <input type="date"
+                               name="date"
+                               id="date"
+                               class="formbold-form-input"
+                               min="@startDate.ToString("yyyy-MM-dd")"
+                               max="@endDate.ToString("yyyy-MM-dd")"
+                               value="@requestDate"/>
+@*                               <ValidationMessage For="@(() => newAppointment.dateTime)"/>
+*@                        </div>
+                    </div>
+                    <div class="w-full sm:w-half formbold-px-3">
+                        <div class="formbold-mb-5">
+                            <label for="time" class="formbold-form-label"> Time </label>
+                            <input type="time"
+                               name="time"
+                               step="1800"
+                               id="time"
+                               class="formbold-form-input"
+                               min="@startTime"
+                               max="@endTime"
+                               value="@requestTime" />
+@*                            <ValidationMessage For="@(() => newAppointment.dateTime)" />
+*@                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+
+            }
+            <div>
+                <button type="submit" class="formbold-btn">Book Appointment</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<h4> @response</h4>
+
+
+@code {
+    private List<DentistResponseModel> dentists = new List<DentistResponseModel>();
+
+    private List<DateTime> appointmentsSelectedDentist = new List<DateTime>();
+    //set min and max date
+    private DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Today.AddDays(1).Day);
+    private DateTime endDate = new DateTime(DateTime.Today.AddYears(1).Year, DateTime.Now.Month, DateTime.Now.Day);
+    //set min and max time
+    private TimeSpan startTime = new TimeSpan(8, 0, 0);
+    private TimeSpan endTime = new TimeSpan(16, 0, 0);
+
+    //split into date and time appointments from backend
+    private List<DateTime> responseDate = new List<DateTime>();
+    private List<TimeSpan> responseTime = new List<TimeSpan>();
+
+    //request split date and time
+    private DateTime requestDate = new DateTime();
+    private TimeSpan requestTime = new TimeSpan();
+    private DateTime requestDateTime = new DateTime();
+
+    //response
+    private string response = string.Empty;
+    private string rejectAppointment = "Sorry, please try again!";
+    private bool ExistAppointment = false;
+
+    private RequestAppointment newAppointment = new RequestAppointment
+        {
+            CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
+        };
+
+    //check dentist's list
+    protected override async Task OnInitializedAsync()
+    {
+        var tempDentistsList = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists/all");
+        dentists = tempDentistsList.Result.ToList();
+    }
+
+    //take dentist appointment list
+    protected async Task HandleDentistApp(Guid dentistIdSelected)
+    {
+        //checked
+        var stringDentistIdSelected = dentistIdSelected.ToString();
+        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointment/allapp/dentist{stringDentistIdSelected}");
+        foreach (var item in tempAppointmentsSelectedDentist.Result.ToList())
+        {
+            appointmentsSelectedDentist.Add(item.dateTime);
+            Console.WriteLine(item.dateTime);
+        }
+        foreach(var appDateTime in appointmentsSelectedDentist)
+        {
+            responseDate.Add(appDateTime.Date);
+            responseTime.Add(appDateTime.TimeOfDay);
+        }
+    }
+
+
+    public void onRenderDayCellHandler(RenderDayCellEventArgs args)
+    {
+        if (args.Date.DayOfWeek.ToString() == "Saturday" || args.Date.DayOfWeek.ToString() == "Sunday")
+        {
+            args.IsDisabled = true;
+        }
+        //implement only dentist available dates
+        foreach (var appRegister in appointmentsSelectedDentist)
+        {
+            if (appRegister.Date.DayOfYear == args.Date.DayOfYear)
+            {
+                if (appRegister.Date.TimeOfDay == args.Date.TimeOfDay)
+                {
+                    Console.WriteLine(appRegister.Date + " first IF: arg.date is " + args.Date);
+                    args.IsDisabled = true;
+                }
+            }
+        }
+    }
+
+    public async Task HandleValidSubmit()
+    {   
+        //Check if date exist
+        foreach (var date in responseDate)
+        {
+            if(date.Date == requestDate)
+            {
+                await CheckTime(requestTime);
+            }
+        }
+        async Task CheckTime(TimeSpan inputTime)
+        {
+            foreach(var time in responseTime)
+            {
+                if(time == requestTime)
+                {
+                    this.ExistAppointment = true;
+                    this.response = this.rejectAppointment;
+                    NavManager.NavigateTo(Routes.NewAppointment);
+                }
+            }
+        }
+
+        if (this.ExistAppointment = false)
+        {
+            newAppointment.dateTime = requestDate.Date.Add(requestTime);
+            bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+            if (confirmed)
+            {
+                var request = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
+                this.response = await request.Content.ReadAsStringAsync();
+
+            }
+            else
+            {
+                NavManager.NavigateTo(Routes.Index);
+            }
+        }
+    }
+
+    //Dialog
+    public bool IsVisible { get; set; } = true;
+    private void OnDialogBtnClick()
+    {
+        IsVisible = false;
+    }
+    private void OnOpenBtnClick()
+    {
+        IsVisible = true;
+    }
+}

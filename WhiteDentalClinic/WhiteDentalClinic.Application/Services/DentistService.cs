@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using WhiteDentalClinic.Application.Exceptions;
 using WhiteDentalClinic.Application.Models.Dentist;
-using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
-using WhiteDentalClinic.DataAccess.Entities.DentistEntity;
-using WhiteDentalClinic.DataAccess.Entities.ServiceDentist;
-using WhiteDentalClinic.DataAccess.Repositories.DentistRepository;
-using WhiteDentalClinic.DataAccess.Repositories.DentistServiceRepository;
+using WhiteDentalClinic.DataAccess.Entities;
+using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 using WhiteDentalClinic.Shared.Services;
 using UpdateDentistResponseModel = WhiteDentalClinic.Application.Models.Dentist.UpdateDentistResponseModel;
 
@@ -72,20 +69,20 @@ namespace WhiteDentalClinic.Application.Services
         {
             var selectedDentist = _dentistRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
-            var userDentistId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");   //default only a single id
+/*            var userDentistId = Guid.Parse("89336c8e-84b6-4bd2-8be0-3cf98ac96598");   //default only a single id. Check current dentist
 
             if (userDentistId != selectedDentist.Id)
             {
                 throw new BadRequestException("You can update only your email.");
-            }
+            }*/
 
             selectedDentist.Email = updateDentistModel.email;
 
-            selectedDentist.dentistServices.Add(new DentistServiceEntity
+/*            selectedDentist.dentistServices.Add(new DentistServiceEntity
             {
                 dentistId = id,
                 medicalServiceId = updateDentistModel.addAnotherMedicalServiceId   
-            });
+            });*/
 
             _dentistRepository.UpdateEntity(selectedDentist);
             _dentistServiceRepository.AddEntity(new DentistServiceEntity
