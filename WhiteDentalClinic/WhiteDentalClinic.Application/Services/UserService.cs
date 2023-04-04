@@ -29,7 +29,7 @@ namespace WhiteDentalClinic.Application.Services
             _templateService = templateService;
         }
 
-        public async Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel)
+        public async Task<ResponseCreateUserModel> CreateAsync(RequestCreateUserModel createUserModel)
         {
             var user = _mapper.Map<ApplicationUser>(createUserModel);
             var result = await _userManager.CreateAsync(user, createUserModel.Password);
@@ -45,7 +45,7 @@ namespace WhiteDentalClinic.Application.Services
 
             //await _emailService.SendEmailAsync(EmailMessage.Create(user.Email, emailBody, "[N-Tier]Confirm your email"));
 
-            return new CreateUserResponseModel
+            return new ResponseCreateUserModel
             {
                 Id = Guid.Parse((await _userManager.FindByIdAsync(user.UserName)).Id)
             };

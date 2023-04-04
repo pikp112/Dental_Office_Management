@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public int Price { get; set; }
-        public List<DentistServiceEntity> dentistServices { get; set; }
+        public List<DentistServiceEntity> DentistServices { get; set; }
     }
 }

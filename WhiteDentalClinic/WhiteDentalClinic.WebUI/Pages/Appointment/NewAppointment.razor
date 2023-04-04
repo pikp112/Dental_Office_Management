@@ -11,8 +11,8 @@
 <div class="formbold-main-wrapper">
     <div class="formbold-form-wrapper">
         <EditForm action="https://formbold.com/s/FORM_ID" method="POST"
-                  Model="@newAppointment" OnValidSubmit="@HandleValidSubmit">
-                  @*<FluentValidationValidator />*@
+                  Model="@newAppointment" OnSubmit="@HandleValidSubmit">
+            @*<FluentValidationValidator />*@
             <div class="formbold-mb-5">
                 <label for="name" class="formbold-form-label"> Full Name </label>
                 <input type="text"
@@ -36,7 +36,7 @@
                         placeholder="Select a dentist"
                         class="form-control"
                         onselect="@HandleDentistApp(newAppointment.DentistId)"
-                        @bind="@newAppointment.DentistId" >
+                        @bind="@newAppointment.DentistId">
                     @foreach (var dentist in dentists)
                     {
                         <option value="none" selected disabled hidden>Select an option</option>
@@ -57,9 +57,10 @@
                                class="formbold-form-input"
                                min="@startDate.ToString("yyyy-MM-dd")"
                                max="@endDate.ToString("yyyy-MM-dd")"
-                               value="@requestDate"/>
-@*                               <ValidationMessage For="@(() => newAppointment.dateTime)"/>
-*@                        </div>
+                               @bind="@requestDate" />
+                            @*                               <ValidationMessage For="@(() => newAppointment.dateTime)"/>
+                        *@<p>@requestDate</p>
+                        </div>
                     </div>
                     <div class="w-full sm:w-half formbold-px-3">
                         <div class="formbold-mb-5">
@@ -71,19 +72,20 @@
                                class="formbold-form-input"
                                min="@startTime"
                                max="@endTime"
-                               value="@requestTime" />
-@*                            <ValidationMessage For="@(() => newAppointment.dateTime)" />
-*@                        </div>
+                               @bind="@requestTime" />
+                            @*                            <ValidationMessage For="@(() => newAppointment.dateTime)" />
+                        *@<p>@requestTime</p>
+                        </div>
                     </div>
+                </div>
+                <div>
+                    <button type="submit" class="formbold-btn">Book Appointment</button>
                 </div>
             }
             else
             {
 
             }
-            <div>
-                <button type="submit" class="formbold-btn">Book Appointment</button>
-            </div>
         </EditForm>
     </div>
 </div>
@@ -108,7 +110,7 @@
 
     //request split date and time
     private DateTime requestDate = new DateTime();
-    private TimeSpan requestTime = new TimeSpan();
+    private DateTime requestTime = new DateTime();
     private DateTime requestDateTime = new DateTime();
 
     //response
@@ -124,7 +126,7 @@
     //check dentist's list
     protected override async Task OnInitializedAsync()
     {
-        var tempDentistsList = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists/all");
+        var tempDentistsList = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists");
         dentists = tempDentistsList.Result.ToList();
     }
 
@@ -133,13 +135,12 @@
     {
         //checked
         var stringDentistIdSelected = dentistIdSelected.ToString();
-        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointment/allapp/dentist{stringDentistIdSelected}");
+        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointments/dentists{stringDentistIdSelected}");
         foreach (var item in tempAppointmentsSelectedDentist.Result.ToList())
         {
             appointmentsSelectedDentist.Add(item.dateTime);
-            Console.WriteLine(item.dateTime);
         }
-        foreach(var appDateTime in appointmentsSelectedDentist)
+        foreach (var appDateTime in appointmentsSelectedDentist)
         {
             responseDate.Add(appDateTime.Date);
             responseTime.Add(appDateTime.TimeOfDay);
@@ -147,56 +148,40 @@
     }
 
 
-    public void onRenderDayCellHandler(RenderDayCellEventArgs args)
-    {
-        if (args.Date.DayOfWeek.ToString() == "Saturday" || args.Date.DayOfWeek.ToString() == "Sunday")
-        {
-            args.IsDisabled = true;
-        }
-        //implement only dentist available dates
-        foreach (var appRegister in appointmentsSelectedDentist)
-        {
-            if (appRegister.Date.DayOfYear == args.Date.DayOfYear)
-            {
-                if (appRegister.Date.TimeOfDay == args.Date.TimeOfDay)
-                {
-                    Console.WriteLine(appRegister.Date + " first IF: arg.date is " + args.Date);
-                    args.IsDisabled = true;
-                }
-            }
-        }
-    }
-
     public async Task HandleValidSubmit()
-    {   
+    {
         //Check if date exist
         foreach (var date in responseDate)
         {
-            if(date.Date == requestDate)
+            if (date.Date == requestDate.Date)
             {
-                await CheckTime(requestTime);
+                CheckTime(requestTime);
+                Console.WriteLine($"checked date {date.Date} == {requestDate.Date}");
             }
         }
-        async Task CheckTime(TimeSpan inputTime)
+        void CheckTime(DateTime inputTime)
         {
-            foreach(var time in responseTime)
+            foreach (var time in responseTime)
             {
-                if(time == requestTime)
+                if (time == requestTime.TimeOfDay)
                 {
+                    Console.WriteLine($"checked time {time} == {requestTime.TimeOfDay}");
                     this.ExistAppointment = true;
                     this.response = this.rejectAppointment;
                     NavManager.NavigateTo(Routes.NewAppointment);
+                    return;
                 }
             }
         }
-
-        if (this.ExistAppointment = false)
+        if (ExistAppointment == false)
         {
-            newAppointment.dateTime = requestDate.Date.Add(requestTime);
+            Console.WriteLine("asdaasfas");
+            newAppointment.dateTime = requestDate.Date.Add(requestTime.TimeOfDay);
+            Console.WriteLine(newAppointment.dateTime);
             bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
             if (confirmed)
             {
-                var request = await Http.PostAsJsonAsync("/api/Appointment", newAppointment);
+                var request = await Http.PostAsJsonAsync("/api/Appointments", newAppointment);
                 this.response = await request.Content.ReadAsStringAsync();
 
             }
@@ -205,16 +190,5 @@
                 NavManager.NavigateTo(Routes.Index);
             }
         }
-    }
-
-    //Dialog
-    public bool IsVisible { get; set; } = true;
-    private void OnDialogBtnClick()
-    {
-        IsVisible = false;
-    }
-    private void OnOpenBtnClick()
-    {
-        IsVisible = true;
     }
 }

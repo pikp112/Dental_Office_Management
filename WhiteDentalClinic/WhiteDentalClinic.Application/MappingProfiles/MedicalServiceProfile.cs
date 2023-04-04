@@ -9,7 +9,7 @@ namespace WhiteDentalClinic.Application.MappingProfiles
         public MedicalServiceProfile()
         {
             CreateMap<MedicalService, ResponseMedicalServices>();
-            CreateMap<CreateMedicalService,MedicalService>();
+            CreateMap<RequestCreateMedicalService,MedicalService>();
         }
     }
 }

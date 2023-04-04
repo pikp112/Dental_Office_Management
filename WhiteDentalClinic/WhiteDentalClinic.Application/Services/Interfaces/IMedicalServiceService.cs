@@ -4,11 +4,11 @@ namespace WhiteDentalClinic.Application.Services.Interfaces
 {
     public interface IMedicalServiceService
     {
-        IEnumerable<ResponseMedicalServices> GetAllMedicalServices();
-        ResponseMedicalServices CreateAMedicalService(CreateMedicalService requestMedicalServiceModel);
-        IEnumerable<ResponseMedicalServices> GetAllMedicalServicesByDentistId(Guid requestDentistId);
+        IEnumerable<ResponseMedicalServices> GetAll();
+        ResponseMedicalServices Create(RequestCreateMedicalService requestMedicalServiceModel);
+        IEnumerable<ResponseMedicalServices> GetAllByDentistId(Guid requestDentistId);
 
-        UpdateResponseMedicalService UpdateMedicalService(Guid id, UpdateRequestMedicalService updateMedicalServiceModel);
-        ResponseMedicalServices DeleteMedicalService(Guid id);
+        ResponseUpdateMedicalService Update(Guid id, RequestUpdateMedicalService updateMedicalServiceModel);
+        ResponseMedicalServices Delete(Guid id);
     }
 }

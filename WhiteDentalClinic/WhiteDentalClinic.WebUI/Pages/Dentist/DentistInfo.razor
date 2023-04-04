@@ -66,7 +66,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         //take all appointments
-        var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/allapp/customer{currentRequesCustomertId}");
+        var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointment/customers{currentRequesCustomertId}");
         appointmentsByCustomer = tempAppByCustomerId.Result.ToList();
 
     }
@@ -74,7 +74,7 @@ else
     private async Task HandleAppChange()
     {
         //take all medical services by dentist ID
-        var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/MedicalService/all/dentist{dentistId}");
+        var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/MedicalService/dentists{dentistId}");
         medicalServicesByDentistId = tempMedicalServices.Result.ToList();
 
         //take dentist detalist from backend

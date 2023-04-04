@@ -1,6 +1,6 @@
 ﻿namespace WhiteDentalClinic.Application.Models.Customer
 {
-    public class CustomerResponseModel
+    public class ResponseCustomerModel
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }       
@@ -9,6 +9,3 @@
         public string Email { get; set; }
     }
 }
-
-
-// toate api sa recurneze o clasa generica  iSucceseful(true/false) ori, ori Errors[], Result [], comuna la tot ce returneaza

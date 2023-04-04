@@ -18,6 +18,13 @@ namespace WhiteDentalClinic.DataAccess.Repositories
         {
             return DbSet.ToList();
         }
+
+        //need to implement for performance instead of SELECT * FROM Appointments WHERE CustomerId = X in services
+        /*        public TEntity SelectEntity(Guid entityId)
+                {
+                    return DbSet.ToList().Where(e => e.Id == entityId);
+                }*/
+
         public TEntity AddEntity(TEntity entity)
         {
             var addedEntity = DbSet.Add(entity).Entity;

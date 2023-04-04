@@ -15,54 +15,66 @@ namespace WhiteDentalClinic.Application.Services
             _appointmentRepository= appointmentRepository;
             _mapper= mapper;
         }
-        public IEnumerable<AppointmentResponseModel> GetAllAppointments()
+
+
+        public IEnumerable<ResponseAppointmentModel> GelAll()
         {
             var allAppointments = _appointmentRepository.GetAll();
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(allAppointments);
+            return _mapper.Map<IEnumerable<ResponseAppointmentModel>>(allAppointments);
         }
-        public IEnumerable<AppointmentResponseModel> GetAllAppointmentsByCustomer(Guid customerRequestId)
+
+
+        public IEnumerable<ResponseAppointmentModel> GetAllByCustomer(Guid customerRequestId)
         {
             var selectedAppointmentByCustomerId = _appointmentRepository.GetAll().Where(app => app.CustomerId == customerRequestId);
 
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(selectedAppointmentByCustomerId);
+            return _mapper.Map<IEnumerable<ResponseAppointmentModel>>(selectedAppointmentByCustomerId);
         }
-        public IEnumerable<AppointmentResponseModel> GetAllAppointmentsByDentist(Guid dentistRequestId)
+
+
+        public IEnumerable<ResponseAppointmentModel> GetAllByDentist(Guid dentistRequestId)
         {
             var selectedAppointmentByDentistId = _appointmentRepository.GetAll().Where(app => app.DentistId == dentistRequestId);
 
-            return _mapper.Map<IEnumerable<AppointmentResponseModel>>(selectedAppointmentByDentistId);
+            return _mapper.Map<IEnumerable<ResponseAppointmentModel>>(selectedAppointmentByDentistId);
         }
 
-        public AppointmentResponseModel GetAppointmentById(Guid appointmentId)
+
+        public ResponseAppointmentModel GetById(Guid appointmentId)
         {
             var selectedAppointmentById = _appointmentRepository.GetAll().FirstOrDefault(app => app.Id == appointmentId);
-            return _mapper.Map<AppointmentResponseModel>(selectedAppointmentById);
+            return _mapper.Map<ResponseAppointmentModel>(selectedAppointmentById);
         }
 
-        public AppointmentResponseModel CreateAppointment(CreateAppointmentRequestModel requestAppointmentModel)
+
+        public ResponseAppointmentModel Create(RequestCreateAppointmentModel requestAppointmentModel)
         {
             var newAppointment = _mapper.Map<Appointment>(requestAppointmentModel);
 
             _appointmentRepository.AddEntity(newAppointment);
 
-            return _mapper.Map<AppointmentResponseModel>(newAppointment);
+            return _mapper.Map<ResponseAppointmentModel>(newAppointment);
         }
 
-        public AppointmentResponseModel DeleteAppointment(Guid appointmentId)
+
+
+        public ResponseAppointmentModel Delete(Guid appointmentId)
         {
             var selectedAppointmentById = _appointmentRepository.GetAll().FirstOrDefault(app => app.Id == appointmentId);
 
             _appointmentRepository.DeleteEntity(selectedAppointmentById);
 
-            return _mapper.Map<AppointmentResponseModel>(selectedAppointmentById);
+            return _mapper.Map<ResponseAppointmentModel>(selectedAppointmentById);
         }
+
+
 
         public IEnumerable<DateTime> GetAvailableTimeSlots(DateTime date, int durationInMinutes)
         {
             // Get all appointments for the specified date
             var existingAppointments = _appointmentRepository
                 .GetAll()
-                .Where(a => a.dateTime == date)
+                .Where(a => a.DateTime == date)
                 .ToList();
 
             // Calculate the available time slots based on the duration of each appointment
@@ -77,7 +89,7 @@ namespace WhiteDentalClinic.Application.Services
                 var isAvailable = true;
                 foreach (var appointment in existingAppointments)
                 {
-                    if (currentSlot >= appointment.dateTime && currentSlot < appointment.dateTime)
+                    if (currentSlot >= appointment.DateTime && currentSlot < appointment.DateTime)
                     {
                         isAvailable = false;
                         break;

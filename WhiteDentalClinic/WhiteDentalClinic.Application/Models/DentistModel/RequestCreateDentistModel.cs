@@ -3,7 +3,7 @@ using WhiteDentalClinic.DataAccess.Entities;
 
 namespace WhiteDentalClinic.Application.Models.Dentist
 {
-    public class CreateDentistRequestModel
+    public class RequestCreateDentistModel
     {
         public Guid Id = Guid.NewGuid();
         [StringLength(50, MinimumLength = 3, ErrorMessage = "First Name should be minimum 3 characters and a maximum of 50 characters")]

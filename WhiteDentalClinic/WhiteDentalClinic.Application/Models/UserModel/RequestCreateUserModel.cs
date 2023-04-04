@@ -2,7 +2,7 @@
 
 namespace WhiteDentalClinic.Application.Models.UserModel
 {
-    public class CreateUserModel
+    public class RequestCreateUserModel
     {
         public Guid Id = Guid.NewGuid();
 

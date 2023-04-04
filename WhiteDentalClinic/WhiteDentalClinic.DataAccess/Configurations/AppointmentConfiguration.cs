@@ -9,7 +9,7 @@ namespace WhiteDentalClinic.DataAccess.Configurations
         public void Configure(EntityTypeBuilder<Appointment> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.Property(a => a.dateTime)
+            builder.Property(a => a.DateTime)
                 .IsRequired();
             builder.HasOne<Customer>(c => c.Customer)
                 .WithMany(ap => ap.Appointments)
