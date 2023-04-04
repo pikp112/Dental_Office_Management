@@ -13,17 +13,16 @@ namespace WhiteDentalClinic.Api.Controllers
             _customerService = customerService;
         }
 
-        //need to check status response
-        [HttpGet("all")]  
-        public ActionResult<IEnumerable<CustomerResponseModel>> GetAllCustomers()
+        [HttpGet]  
+        public ActionResult<IEnumerable<ResponseCustomerModel>> GetAllCustomers()
         {
             try
             {
-                return Ok(ApiGenericsResult<IEnumerable<CustomerResponseModel>>.Success(_customerService.GetAllCustomers()));
+                return Ok(ApiGenericsResult<IEnumerable<ResponseCustomerModel>>.Success(_customerService.GetAll()));
             }
             catch(Exception ex)
             {
-                return BadRequest(ApiGenericsResult<CustomerResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseCustomerModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
 
@@ -32,11 +31,11 @@ namespace WhiteDentalClinic.Api.Controllers
         {
             try
             {
-                return Ok(ApiGenericsResult<CustomerResponseModel>.Success(_customerService.GetCustomerById(id)));
+                return Ok(ApiGenericsResult<ResponseCustomerModel>.Success(_customerService.GetById(id)));
             }
             catch(Exception ex)
             {
-                if(_customerService.GetAllCustomers().ToList().First(x=>x.Id == id) == null)
+                if(_customerService.GetAll().ToList().First(x=>x.Id == id) == null)
                 {
                     return NotFound(ex.Message);
                 }
@@ -45,31 +44,31 @@ namespace WhiteDentalClinic.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCustomer(CreateCustomerRequestModel requestCustomerModel) 
+        public IActionResult CreateCustomer(RequestCreateCustomerModel customerModel) 
         {
             try
             {
-                return Ok(ApiGenericsResult<CustomerResponseModel>.Success(_customerService.CreateCustomer(requestCustomerModel)));
+                return Ok(ApiGenericsResult<ResponseCustomerModel>.Success(_customerService.Create(customerModel)));
             }
             catch(Exception ex)
             {
-                return BadRequest(ApiGenericsResult<CustomerResponseModel>.Failure(new[] {$"{ex.Message}"})); 
+                return BadRequest(ApiGenericsResult<ResponseCustomerModel>.Failure(new[] {$"{ex.Message}"})); 
             }
         }
         [HttpPut]
-        public IActionResult UpdateCustomer(Guid id, UpdateCustomerRequestModel updateCustomerModel)
+        public IActionResult UpdateCustomer(Guid id, RequestUpdateCustomerModel customerModel)
         {
             try
             {
-                return Ok(ApiGenericsResult<UpdateCustomerResponseModel>.Success(_customerService.UpdateCustomer(id, updateCustomerModel)));
+                return Ok(ApiGenericsResult<ResponseUpdateCustomerModel>.Success(_customerService.Update(id, customerModel)));
             }
             catch(Exception ex)
             {
-                if(_customerService.GetAllCustomers().ToList().First(x => x.Id ==id) == null)
+                if(_customerService.GetAll().ToList().First(x => x.Id ==id) == null)
                 {
-                    return NotFound(ApiGenericsResult<UpdateCustomerResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                    return NotFound(ApiGenericsResult<ResponseUpdateCustomerModel>.Failure(new[] { $"{ex.Message}" }));
                 }
-                return BadRequest(ApiGenericsResult<UpdateCustomerResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseUpdateCustomerModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
 
@@ -78,15 +77,15 @@ namespace WhiteDentalClinic.Api.Controllers
         {
             try
             {
-                return Ok(ApiGenericsResult<CustomerResponseModel>.Success(_customerService.DeleteCustomer(id)));
+                return Ok(ApiGenericsResult<ResponseCustomerModel>.Success(_customerService.Delete(id)));
             }
             catch(Exception ex)
             {
-                if (_customerService.GetAllCustomers().ToList().First(x => x.Id == id) == null)
+                if (_customerService.GetAll().ToList().First(x => x.Id == id) == null)
                 {
-                    return NotFound(ApiGenericsResult<CustomerResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                    return NotFound(ApiGenericsResult<ResponseCustomerModel>.Failure(new[] { $"{ex.Message}" }));
                 }
-                return BadRequest(ApiGenericsResult<CustomerResponseModel>.Failure(new[] { $"{ex.Message}"}));
+                return BadRequest(ApiGenericsResult<ResponseCustomerModel>.Failure(new[] { $"{ex.Message}"}));
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace WhiteDentalClinic.Application.Models.AppointmentModel
 {
-    public class CreateAppointmentRequestModel
+    public class RequestCreateAppointmentModel
     {
         public Guid Id { get; set; }
         public DateTime? dateTime { get; set; }

@@ -8,8 +8,8 @@ namespace WhiteDentalClinic.Application.MappingProfiles
     {
         public AppointmentProfile() 
         {
-            CreateMap<Appointment, AppointmentResponseModel>();
-            CreateMap<CreateAppointmentRequestModel, Appointment>();
+            CreateMap<Appointment, ResponseAppointmentModel>();
+            CreateMap<RequestCreateAppointmentModel, Appointment>();
         }
     }
 }

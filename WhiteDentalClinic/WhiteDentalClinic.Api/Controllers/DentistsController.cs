@@ -13,16 +13,16 @@ namespace WhiteDentalClinic.Api.Controllers
             _dentistService= dentistService;
         }
 
-        [HttpGet("all")]
-        public ActionResult<IEnumerable<DentistResponseModel>> GetAllDentists()
+        [HttpGet]
+        public ActionResult<IEnumerable<ResponseDentistModel>> GetAllDentists()
         {
             try
             {
-                return Ok(ApiGenericsResult<IEnumerable<DentistResponseModel>>.Success(_dentistService.GetAllDentists()));
+                return Ok(ApiGenericsResult<IEnumerable<ResponseDentistModel>>.Success(_dentistService.GetAll()));
             }
             catch (Exception ex)
             {
-                return BadRequest(ApiGenericsResult<DentistResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
 
@@ -31,11 +31,11 @@ namespace WhiteDentalClinic.Api.Controllers
         {
             try
             {
-                return Ok(ApiGenericsResult<DentistResponseModel>.Success(_dentistService.GetDentistById(id)));
+                return Ok(ApiGenericsResult<ResponseDentistModel>.Success(_dentistService.GetById(id)));
             }
             catch (Exception ex)
             {
-                if(_dentistService.GetAllDentists().ToList().First(x => x.Id== id) == null)
+                if(_dentistService.GetAll().ToList().First(x => x.Id== id) == null)
                 {
                     return NotFound(ex.Message);
                 }
@@ -44,32 +44,32 @@ namespace WhiteDentalClinic.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateDentist(CreateDentistRequestModel requestDentistModel)
+        public IActionResult CreateDentist(RequestCreateDentistModel dentistModel)
         {
             try
             {
-                return Ok(ApiGenericsResult<DentistResponseModel>.Success(_dentistService.CreateDentist(requestDentistModel)));
+                return Ok(ApiGenericsResult<ResponseDentistModel>.Success(_dentistService.Create(dentistModel)));
             }
             catch (Exception ex)
             {
-                return BadRequest(ApiGenericsResult<DentistResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
 
         [HttpPut]
-        public IActionResult UpdateDentist (Guid id, UpdateDentistRequestModel updateDentistModel)
+        public IActionResult UpdateDentist (Guid id, RequestUpdateDentistModel dentistModel)
         {
             try
             {
-                return Ok(ApiGenericsResult<UpdateDentistResponseModel>.Success(_dentistService.UpdateDentist(id, updateDentistModel)));
+                return Ok(ApiGenericsResult<ResponseUpdateDentistModel>.Success(_dentistService.Update(id, dentistModel)));
             }
             catch (Exception ex)
             {
-                if(_dentistService.GetAllDentists().ToList().First(x => x.Id == id) == null)
+                if(_dentistService.GetAll().ToList().First(x => x.Id == id) == null)
                 {
-                    return NotFound(ApiGenericsResult<UpdateDentistResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                    return NotFound(ApiGenericsResult<ResponseUpdateDentistModel>.Failure(new[] { $"{ex.Message}" }));
                 }
-                return BadRequest(ApiGenericsResult<UpdateDentistResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseUpdateDentistModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
 
@@ -78,15 +78,15 @@ namespace WhiteDentalClinic.Api.Controllers
         {
             try
             {
-                return Ok(ApiGenericsResult<DentistResponseModel>.Success(_dentistService.DeleteDentist(id)));
+                return Ok(ApiGenericsResult<ResponseDentistModel>.Success(_dentistService.DeleteDentist(id)));
             }
             catch (Exception ex)
             {
-                if (_dentistService.GetAllDentists().ToList().First(x => x.Id == id) == null)
+                if (_dentistService.GetAll().ToList().First(x => x.Id == id) == null)
                 {
-                    return NotFound(ApiGenericsResult<DentistResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                    return NotFound(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
                 }
-                return BadRequest(ApiGenericsResult<DentistResponseModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
             }
         }
     }

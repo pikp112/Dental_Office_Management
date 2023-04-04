@@ -9,12 +9,12 @@ namespace WhiteDentalClinic.DataAccess.Configurations
         public void Configure(EntityTypeBuilder<DentistServiceEntity> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(d => d.dentist)
+            builder.HasOne(d => d.Dentist)
             .WithMany(ms => ms.dentistServices)
-            .HasForeignKey(ms => ms.dentistId);
-            builder.HasOne(s => s.medicalService)
-                .WithMany(ns => ns.dentistServices)
-                .HasForeignKey(ns => ns.medicalServiceId);
+            .HasForeignKey(ms => ms.DentistId);
+            builder.HasOne(s => s.MedicalService)
+                .WithMany(ns => ns.DentistServices)
+                .HasForeignKey(ns => ns.MedicalServiceId);
         }
     }
 }

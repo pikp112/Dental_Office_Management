@@ -25,18 +25,18 @@ namespace WhiteDentalClinic.Application.Services
             _claimService = claimService;
             _dentistServiceRepository = dentistServiceRepository;
         }
-        public IEnumerable<ResponseMedicalServices> GetAllMedicalServices()
+        public IEnumerable<ResponseMedicalServices> GetAll()
         {
             var listMedicalServices = _medicalServiceRepository.GetAll();
             return _mapper.Map<IEnumerable<ResponseMedicalServices>>(listMedicalServices);
         }
 
-        public IEnumerable<ResponseMedicalServices> GetAllMedicalServicesByDentistId(Guid requestDentistId)
+        public IEnumerable<ResponseMedicalServices> GetAllByDentistId(Guid requestDentistId)
         {
             //medical services by input dentist ID
-            var listMedicalServicesById = _dentistServiceRepository.GetAll().Where(x => x.dentistId == requestDentistId);
+            var listMedicalServicesById = _dentistServiceRepository.GetAll().Where(x => x.DentistId == requestDentistId);
 
-            var tempId = listMedicalServicesById.Select(x => x.medicalServiceId).ToList(); //list ID medical services
+            var tempId = listMedicalServicesById.Select(x => x.MedicalServiceId).ToList(); //list ID medical services
 
             var tempListMedicalService = new List<MedicalService>();
 
@@ -59,7 +59,7 @@ namespace WhiteDentalClinic.Application.Services
             */
         }
 
-        public ResponseMedicalServices CreateAMedicalService(CreateMedicalService requestMedicalServiceModel)
+        public ResponseMedicalServices Create(RequestCreateMedicalService requestMedicalServiceModel)
         {
             var newMedicalService = _mapper.Map<MedicalService>(requestMedicalServiceModel);
             newMedicalService.Id = Guid.NewGuid();
@@ -67,7 +67,7 @@ namespace WhiteDentalClinic.Application.Services
             return _mapper.Map<ResponseMedicalServices>(newMedicalService);
         }
 
-        public ResponseMedicalServices DeleteMedicalService(Guid id)
+        public ResponseMedicalServices Delete(Guid id)
         {
             var medicaServiceById = _medicalServiceRepository.GetAll().FirstOrDefault(ms => ms.Id == id);
             _medicalServiceRepository.DeleteEntity(medicaServiceById);
@@ -75,7 +75,8 @@ namespace WhiteDentalClinic.Application.Services
 
         }
 
-        public UpdateResponseMedicalService UpdateMedicalService(Guid id, UpdateRequestMedicalService updateMedicalServiceModel)
+
+        public ResponseUpdateMedicalService Update(Guid id, RequestUpdateMedicalService updateMedicalServiceModel)
         {
             var selectedMedicalService = _medicalServiceRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
@@ -87,7 +88,7 @@ namespace WhiteDentalClinic.Application.Services
 
             selectedMedicalService.Price = updateMedicalServiceModel.Price;
 
-            return new UpdateResponseMedicalService
+            return new ResponseUpdateMedicalService
             {
                 Id = _medicalServiceRepository.UpdateEntity(selectedMedicalService).Id
             };

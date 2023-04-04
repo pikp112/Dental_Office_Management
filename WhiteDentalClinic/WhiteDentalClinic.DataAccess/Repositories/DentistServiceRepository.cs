@@ -3,10 +3,9 @@ using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 
 namespace WhiteDentalClinic.DataAccess.Repositories
 {
-    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
+    public class DentistServiceRepository : BaseRepository<DentistServiceEntity>, IDentistServiceRepository
     {
-        public CustomerRepository(ApiDbTempContext context) : base(context)
+        public DentistServiceRepository(ApiDbTempContext context) : base(context)
         { }
     }
 }
-

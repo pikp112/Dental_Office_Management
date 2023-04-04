@@ -8,8 +8,8 @@ namespace WhiteDentalClinic.Application.MappingProfiles
     {
         public DentistProfile() 
         {
-            CreateMap<Dentist, DentistResponseModel>();
-            CreateMap<CreateDentistRequestModel, Dentist>();
+            CreateMap<Dentist, ResponseDentistModel>();
+            CreateMap<RequestCreateDentistModel, Dentist>();
         }
     }
 }

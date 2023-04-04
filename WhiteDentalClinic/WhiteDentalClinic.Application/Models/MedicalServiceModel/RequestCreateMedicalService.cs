@@ -2,7 +2,7 @@
 
 namespace WhiteDentalClinic.Application.Models.MedicalServiceModel
 {
-    public class CreateMedicalService
+    public class RequestCreateMedicalService
     {
         public Guid Id = Guid.NewGuid();
 

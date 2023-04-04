@@ -1,8 +1,8 @@
 ﻿namespace WhiteDentalClinic.Application.Models.MedicalServiceModel
 {
-    public class UpdateRequestMedicalService
+    public class ResponseUpdateMedicalService
     {
-        public int Price { get; set; }
+        public Guid Id { get; set; }
 
     }
 }

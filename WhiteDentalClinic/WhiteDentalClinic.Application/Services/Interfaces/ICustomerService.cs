@@ -4,10 +4,10 @@ namespace WhiteDentalClinic.Application.Services.Interfaces
 {
     public interface ICustomerService
     {
-        IEnumerable<CustomerResponseModel> GetAllCustomers();
-        CustomerResponseModel GetCustomerById(Guid id);
-        CustomerResponseModel CreateCustomer(CreateCustomerRequestModel requestCustomerModel);
-        UpdateCustomerResponseModel UpdateCustomer(Guid id, UpdateCustomerRequestModel updateCustomerModel);
-        CustomerResponseModel DeleteCustomer(Guid id);
+        IEnumerable<ResponseCustomerModel> GetAll();
+        ResponseCustomerModel GetById(Guid id);
+        ResponseCustomerModel Create(RequestCreateCustomerModel requestCustomerModel);
+        ResponseUpdateCustomerModel Update(Guid id, RequestUpdateCustomerModel updateCustomerModel);
+        ResponseCustomerModel Delete(Guid id);
     }
 }

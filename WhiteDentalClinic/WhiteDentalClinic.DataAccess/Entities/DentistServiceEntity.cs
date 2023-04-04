@@ -2,9 +2,9 @@
 {
     public class DentistServiceEntity : BaseEntity
     {
-        public Guid dentistId { get; set; }
-        public Dentist dentist { get; set; }
-        public Guid medicalServiceId { get; set; }
-        public MedicalService medicalService { get; set; }
+        public Guid DentistId { get; set; }
+        public Dentist Dentist { get; set; }
+        public Guid MedicalServiceId { get; set; }
+        public MedicalService MedicalService { get; set; }
     }
 }

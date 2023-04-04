@@ -4,7 +4,7 @@ namespace WhiteDentalClinic.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel);
+        Task<ResponseCreateUserModel> CreateAsync(RequestCreateUserModel createUserModel);
 
         // LoginAsync
         // ConfirmEmailAsync

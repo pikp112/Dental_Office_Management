@@ -1,6 +1,6 @@
 ﻿namespace WhiteDentalClinic.Application.Models.Dentist
 {
-    public class DentistResponseModel
+    public class ResponseDentistModel
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

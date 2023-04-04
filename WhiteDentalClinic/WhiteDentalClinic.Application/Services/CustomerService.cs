@@ -5,7 +5,7 @@ using WhiteDentalClinic.Application.Services.Interfaces;
 using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 using WhiteDentalClinic.Shared.Services;
-using UpdateCustomerResponseModel = WhiteDentalClinic.Application.Models.Customer.UpdateCustomerResponseModel;
+using ResponseUpdateCustomerModel = WhiteDentalClinic.Application.Models.Customer.ResponseUpdateCustomerModel;
 
 
 namespace WhiteDentalClinic.Application.Services
@@ -21,27 +21,27 @@ namespace WhiteDentalClinic.Application.Services
             _mapper = mapper;
             _claimService=claimService;
         }
-        public IEnumerable<CustomerResponseModel> GetAllCustomers()
+        public IEnumerable<ResponseCustomerModel> GetAll()
         {
             var responseModelListCustomers = _customerRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<CustomerResponseModel>>(responseModelListCustomers);
+            return _mapper.Map<IEnumerable<ResponseCustomerModel>>(responseModelListCustomers);
         }
-        public CustomerResponseModel CreateCustomer(CreateCustomerRequestModel requestCustomerModel)
+        public ResponseCustomerModel Create(RequestCreateCustomerModel requestCustomerModel)
         {
             var newCustomer = _mapper.Map<Customer>(requestCustomerModel);
 
             this._customerRepository.AddEntity(newCustomer);
 
-            return _mapper.Map<CustomerResponseModel>(newCustomer);
+            return _mapper.Map<ResponseCustomerModel>(newCustomer);
         }
-        public CustomerResponseModel GetCustomerById(Guid id)
+        public ResponseCustomerModel GetById(Guid id)
         {
             var customerById = _customerRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
-            return _mapper.Map<CustomerResponseModel>(customerById);
+            return _mapper.Map<ResponseCustomerModel>(customerById);
         }
-        public UpdateCustomerResponseModel UpdateCustomer(Guid id, UpdateCustomerRequestModel updateCustomerModel)
+        public ResponseUpdateCustomerModel Update(Guid id, RequestUpdateCustomerModel updateCustomerModel)
         {
             var selectedCustomer = _customerRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
@@ -54,18 +54,18 @@ namespace WhiteDentalClinic.Application.Services
 
             selectedCustomer.Email = updateCustomerModel.Email;   // need to catch Exception
 
-            return new UpdateCustomerResponseModel
+            return new ResponseUpdateCustomerModel
             {
                 Id = _customerRepository.UpdateEntity(selectedCustomer).Id
             };
         }
-        public CustomerResponseModel DeleteCustomer(Guid id)
+        public ResponseCustomerModel Delete(Guid id)
         {
             var customerById = _customerRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
             _customerRepository.DeleteEntity(customerById);
 
-            return _mapper.Map<CustomerResponseModel>(customerById);
+            return _mapper.Map<ResponseCustomerModel>(customerById);
         }
     }
 }

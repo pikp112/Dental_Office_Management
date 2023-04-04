@@ -5,7 +5,7 @@ using WhiteDentalClinic.Application.Services.Interfaces;
 using WhiteDentalClinic.DataAccess.Entities;
 using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 using WhiteDentalClinic.Shared.Services;
-using UpdateDentistResponseModel = WhiteDentalClinic.Application.Models.Dentist.UpdateDentistResponseModel;
+using ResponseUpdateDentistModel = WhiteDentalClinic.Application.Models.Dentist.ResponseUpdateDentistModel;
 
 namespace WhiteDentalClinic.Application.Services
 {
@@ -26,46 +26,46 @@ namespace WhiteDentalClinic.Application.Services
             _claimService=claimService;
             _dentistServiceRepository = dentistServiceRepository;
         }
-        public IEnumerable<DentistResponseModel> GetAllDentists()
+        public IEnumerable<ResponseDentistModel> GetAll()
         {
             var responseModelListDentists = _dentistRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<DentistResponseModel>>(responseModelListDentists);
+            return _mapper.Map<IEnumerable<ResponseDentistModel>>(responseModelListDentists);
 
         }
-        public DentistResponseModel GetDentistById(Guid id)
+        public ResponseDentistModel GetById(Guid id)
         {
             var dentistbyId = _dentistRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
-            return _mapper.Map<DentistResponseModel>(dentistbyId);
+            return _mapper.Map<ResponseDentistModel>(dentistbyId);
         }
 
-        public DentistResponseModel CreateDentist(CreateDentistRequestModel requestDentistModel)
+        public ResponseDentistModel Create(RequestCreateDentistModel requestDentistModel)
         {
             requestDentistModel.dentistServices.Add(new DentistServiceEntity
             {
-                dentistId = requestDentistModel.Id,
-                medicalServiceId = Guid.Parse("3fbbb59a-d3fd-4400-9a03-0d95c34ce2b5")  // default "Medical consult"
+                DentistId = requestDentistModel.Id,
+                MedicalServiceId = Guid.Parse("3fbbb59a-d3fd-4400-9a03-0d95c34ce2b5")  // default "Medical consult"
             });
 
             var newDentist = _mapper.Map<Dentist>(requestDentistModel);
 
             this._dentistRepository.AddEntity(newDentist);
 
-            return _mapper.Map<DentistResponseModel>(newDentist);
+            return _mapper.Map<ResponseDentistModel>(newDentist);
         }
 
-        public DentistResponseModel DeleteDentist(Guid id)
+        public ResponseDentistModel DeleteDentist(Guid id)
         {
             var dentistbyId = _dentistRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
             _dentistRepository.DeleteEntity(dentistbyId);
 
-            return _mapper.Map<DentistResponseModel>(dentistbyId);
+            return _mapper.Map<ResponseDentistModel>(dentistbyId);
         }
 
 
-        public UpdateDentistResponseModel UpdateDentist(Guid id, UpdateDentistRequestModel updateDentistModel)
+        public ResponseUpdateDentistModel Update(Guid id, RequestUpdateDentistModel updateDentistModel)
         {
             var selectedDentist = _dentistRepository.GetAll().FirstOrDefault(x => x.Id == id);
 
@@ -76,7 +76,7 @@ namespace WhiteDentalClinic.Application.Services
                 throw new BadRequestException("You can update only your email.");
             }*/
 
-            selectedDentist.Email = updateDentistModel.email;
+            selectedDentist.Email = updateDentistModel.Email;
 
 /*            selectedDentist.dentistServices.Add(new DentistServiceEntity
             {
@@ -88,11 +88,11 @@ namespace WhiteDentalClinic.Application.Services
             _dentistServiceRepository.AddEntity(new DentistServiceEntity
             {
                 Id = Guid.NewGuid(),
-                medicalServiceId = updateDentistModel.addAnotherMedicalServiceId,
-                dentistId = id
+                MedicalServiceId = updateDentistModel.AdditionlMedicalServiceId,
+                DentistId = id
             });
 
-            return new UpdateDentistResponseModel
+            return new ResponseUpdateDentistModel
             {
                 Id = id
             };

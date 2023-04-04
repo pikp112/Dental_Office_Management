@@ -56,7 +56,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists/all");
+        var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists");
         dentists = temp.Result.ToList();
     }
 

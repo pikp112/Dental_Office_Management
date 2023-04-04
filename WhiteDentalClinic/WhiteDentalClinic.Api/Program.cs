@@ -27,7 +27,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IDentistService,DentistService>();
 builder.Services.AddScoped<IDentistRepository, DentistRepository>();
 
-builder.Services.AddScoped<IDentistServiceRepository, DentistServiceRepositoryBase>();
+builder.Services.AddScoped<IDentistServiceRepository, DentistServiceRepository>();
 
 builder.Services.AddScoped<IMedicalServiceService, MedicalServiceService>();
 builder.Services.AddScoped<IMedicalServiceRepository, MedicalServiceRepository>();
@@ -44,7 +44,6 @@ builder.Services.AddAutoMapper(typeof(DentistProfile));
 builder.Services.AddAutoMapper(typeof(MedicalServiceProfile));
 builder.Services.AddAutoMapper(typeof(AppointmentProfile));
 
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -56,15 +55,15 @@ builder.Services.AddDbContext<ApiDbTempContext>(options =>
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;       //sa foloseasca Jwt
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;       //to use JWT
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,     //request de oriunde
-        ValidateAudience = false,   //request de oriunde
+        ValidateIssuer = true,     //request from everywhere
+        ValidateAudience = false,   // request from everywhere
         ValidateLifetime = true,     // expire date
         ValidateIssuerSigningKey= true,    //check the key
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfiguration:SecretKey"]))
@@ -88,12 +87,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors(corsPolicyBuilder =>                //request de ORIUNDE, orice Header si orice Metoda (get, post, put etc.) 
+app.UseCors(corsPolicyBuilder =>                // request from everywhere, any Header si any methods (get, post, put etc.) 
 {
-    corsPolicyBuilder.AllowAnyOrigin()          //depinde de business
+    corsPolicyBuilder.AllowAnyOrigin()          //depends by the business
     .AllowAnyHeader()
     .AllowAnyMethod();
 });
-
 
 app.Run();

@@ -4,12 +4,12 @@ namespace WhiteDentalClinic.Application.Services.Interfaces
 {
     public interface IAppointmentService
     {
-        IEnumerable<AppointmentResponseModel> GetAllAppointments();
-        IEnumerable<AppointmentResponseModel> GetAllAppointmentsByCustomer(Guid customerRequestId);
-        IEnumerable<AppointmentResponseModel> GetAllAppointmentsByDentist(Guid dentistRequestId);
-        AppointmentResponseModel GetAppointmentById(Guid appointmentId);
-        AppointmentResponseModel CreateAppointment(CreateAppointmentRequestModel requestAppointmentModel);
-        AppointmentResponseModel DeleteAppointment(Guid appointmentId);
+        IEnumerable<ResponseAppointmentModel> GelAll();
+        IEnumerable<ResponseAppointmentModel> GetAllByCustomer(Guid customerRequestId);
+        IEnumerable<ResponseAppointmentModel> GetAllByDentist(Guid dentistRequestId);
+        ResponseAppointmentModel GetById(Guid appointmentId);
+        ResponseAppointmentModel Create(RequestCreateAppointmentModel requestAppointmentModel);
+        ResponseAppointmentModel Delete(Guid appointmentId);
         IEnumerable<DateTime> GetAvailableTimeSlots(DateTime date, int durationInMinutes);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace WhiteDentalClinic.Application.Models.Customer
 {
-    public class UpdateCustomerResponseModel
+    public class ResponseUpdateCustomerModel
     {
         public Guid Id { get; set; }
     }
