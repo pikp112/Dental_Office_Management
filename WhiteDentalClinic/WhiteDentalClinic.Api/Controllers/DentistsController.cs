@@ -100,7 +100,7 @@ namespace WhiteDentalClinic.Api.Controllers
         }
 
 
-        [HttpGet("medicalservices{id}")]
+        [HttpGet("medicalservices/{id}")]
         public IActionResult GetMedicalServices(Guid id)
         {
             try

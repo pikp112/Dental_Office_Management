@@ -29,7 +29,27 @@ else
                                         <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
                                         <!--if is a customer show customer....else dentist (will be)-->
                                         <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Experience:</span> @currentProfile.Age</li>
+                                        @if (IsTaskRunning == true)
+                                        {
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Firstname:</span>
+                                                <input class="form-control" value="@currentProfile.FirstName" @oninput="HandleFirstName" />
+                                            </li>
+                                            <li class="mb-2 mb-xl-3 display-28">
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Lastname:</span>
+                                                <input class="form-control" value="@currentProfile.LastName" @oninput="HandleLastName" />
+                                            </li>
+
+                                        }
+                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Age:</span>
+                                            @if (IsTaskRunning == false)
+                                            {
+                                                @currentProfile.Age
+                                            }
+                                            else
+                                            {
+                                                <input class="form-control" value="@currentProfile.Age" @oninput="HandleAge" />
+                                            }
+                                            </li>
                                         <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
                                             @if (IsTaskRunning==false)
                                             {
@@ -37,7 +57,6 @@ else
                                             }
                                             else
                                             {
-
                                                 <input class="form-control" value="@currentProfile.Email" @oninput="HandleEmail"/>
                                             }
                                         </li>
@@ -175,6 +194,54 @@ else
     private EditContext editContext;
 
     public async Task HandleEmail()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+
+        }
+        else
+        {
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+        }
+    }
+    public async Task HandleAge()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+
+        }
+        else
+        {
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+        }
+    }
+    public async Task HandleFirstName()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+
+        }
+        else
+        {
+            Thread.Sleep(1000);
+            NavManager.NavigateTo(Routes.Index);
+        }
+    }
+    public async Task HandleLastName()
     {
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
         if (confirmed)

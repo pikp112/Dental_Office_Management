@@ -13,7 +13,7 @@ namespace WhiteDentalClinic.Api.Controllers
             _appointmentService = appointmentService;
         }
 
-        [HttpGet("customers{customerId}")]
+        [HttpGet("customers/{customerId}")]
         public ActionResult<IEnumerable<ResponseAppointmentModel>> GetAllAppointmentsByCustomer(Guid customerId)
         {
             try
@@ -30,7 +30,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpGet("dentists{dentistId}")]
+        [HttpGet("dentists/{dentistId}")]
         public ActionResult<IEnumerable<ResponseAppointmentModel>> GetAllAppointmentsByDentist(Guid dentistId)
         {
             try

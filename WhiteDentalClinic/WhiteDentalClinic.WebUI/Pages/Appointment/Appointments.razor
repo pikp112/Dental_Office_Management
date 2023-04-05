@@ -63,7 +63,7 @@ else
     {
         try
         {
-            var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointments/customers{currentRequestId}");
+            var temp = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointments/customers/{currentRequestId}");
             appointmentsByUser = temp.Result.ToList();
         }
         catch (Exception ex)
@@ -79,8 +79,7 @@ else
         if (confirmed)
         {
             string uriApp = selectAppointmentToDelete.ToString();
-            await Http.DeleteAsync($"/api/Appointment?appointmentId={selectAppointmentToDelete}");
-
+            await Http.DeleteAsync($"/api/Appointments?appointmentId={selectAppointmentToDelete}");
             Thread.Sleep(1000);
             NavManager.NavigateTo(Routes.Index);
         }

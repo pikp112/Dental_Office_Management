@@ -73,7 +73,7 @@
                                max="@endDate.ToString("yyyy-MM-dd")"
                                @bind="@requestDate" />
                             @*                               <ValidationMessage For="@(() => newAppointment.dateTime)"/>
-                        *@<p>@requestDate</p>
+                        *@
                         </div>
                     </div>
                     <div class="w-full sm:w-half formbold-px-3">
@@ -88,7 +88,7 @@
                                max="@endTime"
                                @bind="@requestTime" />
                             @*                            <ValidationMessage For="@(() => newAppointment.dateTime)" />
-                        *@<p>@requestTime</p>
+                        *@
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
     {
         //checked
         var stringDentistIdSelected = dentistIdSelected.ToString();
-        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointments/dentists{stringDentistIdSelected}");
+        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointments/dentists/{stringDentistIdSelected}");
         foreach (var item in tempAppointmentsSelectedDentist.Result.ToList())
         {
             appointmentsSelectedDentist.Add(item.dateTime);
@@ -161,12 +161,8 @@
         }
 
         //take medical services by dentist id
-        var tempMedicalServicesBySelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"api/Dentists/medicalservices{stringDentistIdSelected}");
+        var tempMedicalServicesBySelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"api/Dentists/medicalservices/{stringDentistIdSelected}");
         medicalServicesBySelectedDentist = tempMedicalServicesBySelectedDentist.Result.ToList();
-        foreach (var item in medicalServicesBySelectedDentist)
-        {
-            Console.WriteLine(item.Id);
-        }
     }
 
 
