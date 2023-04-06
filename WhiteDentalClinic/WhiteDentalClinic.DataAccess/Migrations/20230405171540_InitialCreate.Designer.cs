@@ -12,7 +12,7 @@ using WhiteDentalClinic.DataAccess;
 namespace WhiteDentalClinic.DataAccess.Migrations
 {
     [DbContext(typeof(ApiDbTempContext))]
-    [Migration("20230311202922_InitialCreate")]
+    [Migration("20230405171540_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace WhiteDentalClinic.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.AppointmentEntity.Appointment", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.Appointment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,11 +33,15 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("DateTime")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("DentistId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("dateTime")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid>("MedicalServiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -45,10 +49,13 @@ namespace WhiteDentalClinic.DataAccess.Migrations
 
                     b.HasIndex("DentistId");
 
+                    b.HasIndex("MedicalServiceId")
+                        .IsUnique();
+
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.CustomerEntity.Customer", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +84,7 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.DentistEntity.Dentist", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.Dentist", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +113,28 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                     b.ToTable("Dentists");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity.MedicalService", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.DentistServiceEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DentistId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MedicalServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DentistId");
+
+                    b.HasIndex("MedicalServiceId");
+
+                    b.ToTable("DentistServices");
+                });
+
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.MedicalService", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,80 +152,70 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                     b.ToTable("MedicalServices");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.ServiceDentist.DentistService", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.Appointment", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("dentistId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("medicalServiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("dentistId");
-
-                    b.HasIndex("medicalServiceId");
-
-                    b.ToTable("DentistServices");
-                });
-
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.AppointmentEntity.Appointment", b =>
-                {
-                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.CustomerEntity.Customer", "Customer")
+                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.Customer", "Customer")
                         .WithMany("Appointments")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.DentistEntity.Dentist", "Dentist")
+                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.Dentist", "Dentist")
                         .WithMany("Appointments")
                         .HasForeignKey("DentistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.MedicalService", "MedicalService")
+                        .WithOne("Appointment")
+                        .HasForeignKey("WhiteDentalClinic.DataAccess.Entities.Appointment", "MedicalServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
 
                     b.Navigation("Dentist");
+
+                    b.Navigation("MedicalService");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.ServiceDentist.DentistService", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.DentistServiceEntity", b =>
                 {
-                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.DentistEntity.Dentist", "dentist")
+                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.Dentist", "Dentist")
                         .WithMany("dentistServices")
-                        .HasForeignKey("dentistId")
+                        .HasForeignKey("DentistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity.MedicalService", "medicalService")
-                        .WithMany("dentistServices")
-                        .HasForeignKey("medicalServiceId")
+                    b.HasOne("WhiteDentalClinic.DataAccess.Entities.MedicalService", "MedicalService")
+                        .WithMany("DentistServices")
+                        .HasForeignKey("MedicalServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("dentist");
+                    b.Navigation("Dentist");
 
-                    b.Navigation("medicalService");
+                    b.Navigation("MedicalService");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.CustomerEntity.Customer", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.Customer", b =>
                 {
                     b.Navigation("Appointments");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.DentistEntity.Dentist", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.Dentist", b =>
                 {
                     b.Navigation("Appointments");
 
                     b.Navigation("dentistServices");
                 });
 
-            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.MedicalServiceEntity.MedicalService", b =>
+            modelBuilder.Entity("WhiteDentalClinic.DataAccess.Entities.MedicalService", b =>
                 {
-                    b.Navigation("dentistServices");
+                    b.Navigation("Appointment")
+                        .IsRequired();
+
+                    b.Navigation("DentistServices");
                 });
 #pragma warning restore 612, 618
         }

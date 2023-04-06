@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -58,9 +59,10 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    dateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DentistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    DentistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MedicalServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,6 +79,12 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                         principalTable: "Dentists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_MedicalServices_MedicalServiceId",
+                        column: x => x.MedicalServiceId,
+                        principalTable: "MedicalServices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,21 +92,21 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    dentistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    medicalServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    DentistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MedicalServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DentistServices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DentistServices_Dentists_dentistId",
-                        column: x => x.dentistId,
+                        name: "FK_DentistServices_Dentists_DentistId",
+                        column: x => x.DentistId,
                         principalTable: "Dentists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DentistServices_MedicalServices_medicalServiceId",
-                        column: x => x.medicalServiceId,
+                        name: "FK_DentistServices_MedicalServices_MedicalServiceId",
+                        column: x => x.MedicalServiceId,
                         principalTable: "MedicalServices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -115,14 +123,20 @@ namespace WhiteDentalClinic.DataAccess.Migrations
                 column: "DentistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DentistServices_dentistId",
-                table: "DentistServices",
-                column: "dentistId");
+                name: "IX_Appointments_MedicalServiceId",
+                table: "Appointments",
+                column: "MedicalServiceId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DentistServices_medicalServiceId",
+                name: "IX_DentistServices_DentistId",
                 table: "DentistServices",
-                column: "medicalServiceId");
+                column: "DentistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DentistServices_MedicalServiceId",
+                table: "DentistServices",
+                column: "MedicalServiceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

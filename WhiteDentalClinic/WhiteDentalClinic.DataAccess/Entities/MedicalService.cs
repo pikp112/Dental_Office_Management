@@ -5,5 +5,6 @@
         public string Name { get; set; }
         public int Price { get; set; }
         public List<DentistServiceEntity> DentistServices { get; set; }
+        public Appointment Appointment { get; set; }    
     }
 }

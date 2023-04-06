@@ -52,7 +52,8 @@
                     <select name="medicalServiceId"
                         id="medicalServiceId"
                         placeholder="Select a medical service"
-                        class="form-control"><!--here need to implement a new response and do a bind by his ID to newAppointment.MedServiceId-->
+                        class="form-control"
+                        @bind="@newAppointment.MedicalDentistId"><!--here need to implement a new response and do a bind by his ID to newAppointment.MedServiceId-->
                         @foreach (var medService in medicalServicesBySelectedDentist)
                         {
                             <option value="none" selected disabled hidden>Select an option</option>
@@ -134,7 +135,7 @@
 
     private RequestAppointment newAppointment = new RequestAppointment
         {
-            CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
+            CustomerId = Guid.Parse("9665bfd7-d60b-4557-b44e-80459d8c8e97") // by default an ID customer. Need to be current Id customer
         };
 
     protected override async Task OnInitializedAsync()

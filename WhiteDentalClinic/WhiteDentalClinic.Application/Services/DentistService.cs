@@ -49,7 +49,7 @@ namespace WhiteDentalClinic.Application.Services
             requestDentistModel.dentistServices.Add(new DentistServiceEntity
             {
                 DentistId = requestDentistModel.Id,
-                MedicalServiceId = Guid.Parse("3fbbb59a-d3fd-4400-9a03-0d95c34ce2b5")  // default "Medical consult"
+                MedicalServiceId = Guid.Parse("d83e231b-57e9-4460-9408-c23a06b0856d")  // default "Consult"
             });
 
             var newDentist = _mapper.Map<Dentist>(requestDentistModel);

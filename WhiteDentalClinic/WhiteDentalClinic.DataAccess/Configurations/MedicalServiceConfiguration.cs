@@ -13,6 +13,9 @@ namespace WhiteDentalClinic.DataAccess.Configurations
                 .IsRequired();
             builder.Property(x => x.Price)
                 .IsRequired();
+            builder.HasOne(a => a.Appointment)
+                .WithOne(a => a.MedicalService)
+                .HasForeignKey<Appointment>(a => a.MedicalServiceId);
         }
     }
 }

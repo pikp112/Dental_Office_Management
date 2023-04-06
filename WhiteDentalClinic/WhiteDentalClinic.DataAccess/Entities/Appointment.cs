@@ -8,5 +8,7 @@
         public Customer Customer { get; set; }
         public Guid DentistId { get; set; }
         public Dentist Dentist { get; set; }
+        public MedicalService MedicalService { get; set; }
+        public Guid MedicalServiceId { get; set; }
     }
 }
