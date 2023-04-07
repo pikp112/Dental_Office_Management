@@ -7,6 +7,7 @@
 @using static WhiteDentalClinic.WebUI.Pages.Dentist.Dentists;
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavManager
+@inject IToastService ToastService
 
 <div class="formbold-main-wrapper">
     <div class="formbold-form-wrapper">
@@ -45,6 +46,7 @@
                 </select>
                 <ValidationMessage For="@(() => newAppointment.DentistId)" />
             </div>
+
             @if (@newAppointment.DentistId != default(Guid))
             {
                 <div class="formbold-mb-5">
@@ -53,7 +55,7 @@
                         id="medicalServiceId"
                         placeholder="Select a medical service"
                         class="form-control"
-                        @bind="@newAppointment.MedicalDentistId"><!--here need to implement a new response and do a bind by his ID to newAppointment.MedServiceId-->
+                        @bind="@newAppointment.MedicalServiceId">
                         @foreach (var medService in medicalServicesBySelectedDentist)
                         {
                             <option value="none" selected disabled hidden>Select an option</option>
@@ -153,7 +155,7 @@
         var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointments/dentists/{stringDentistIdSelected}");
         foreach (var item in tempAppointmentsSelectedDentist.Result.ToList())
         {
-            appointmentsSelectedDentist.Add(item.dateTime);
+            appointmentsSelectedDentist.Add(item.DateTime);
         }
         foreach (var appDateTime in appointmentsSelectedDentist)
         {
@@ -192,8 +194,8 @@
         }
         if (ExistAppointment == false)
         {
-            newAppointment.dateTime = requestDate.Date.Add(requestTime.TimeOfDay);
-            Console.WriteLine(newAppointment.dateTime);
+            newAppointment.DateTime = requestDate.Date.Add(requestTime.TimeOfDay);
+            Console.WriteLine(newAppointment.DateTime);
             bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
             if (confirmed)
             {

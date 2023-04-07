@@ -3,7 +3,7 @@
     public class Appointment
     {
         public Guid Id { get; set; }
-        public DateTime? DateTime { get; set; }
+        public DateTime DateTime { get; set; }
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
         public Guid DentistId { get; set; }

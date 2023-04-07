@@ -1,24 +1,35 @@
-﻿@using WhiteDentalClinic.Shared.Models;
+﻿@page "/Appointments/{Id}"
+@using WhiteDentalClinic.Shared.Models;
 @using static WhiteDentalClinic.WebUI.Pages.Dentist.Dentists;
-@attribute [Route(Routes.DentistInfo)]
 @inject HttpClient Http
 @inject NavigationManager NavManager
-
 
 
 <!-- Service Start -->
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
         <div class="row g-5 mb-5">
-            <div class="col-lg-5 wow zoomIn" data-wow-delay="0.3s" style="min-height: 400px;">
-                <div class="twentytwenty-container position-relative h-100 rounded overflow-hidden">
-                    <img class="position-absolute w-100 h-100" src="img/before.jpg" style="object-fit: cover;">
-                    <img class="position-absolute w-100 h-100" src="img/after.jpg" style="object-fit: cover;">
+            <div class="col-lg-5 service-item wow zoomIn" data-wow-delay="0.9s">
+                <div class="position-relative rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-4">
+                    @if (selectedAppointment == null)
+                    {
+                        <h3 class="text-dark mb-3">Appointment not found.</h3>
+                    }
+                    else
+                    {
+                        <h3 class="text-dark mb-3">Your appointment from: @selectedAppointment.DateTime.Day @selectedAppointment.DateTime.ToString("MMMM") @selectedAppointment.DateTime.Year<br/></h3>
+                        <p class="text-dark mb-3">
+                            Our dentist, @selectedDentist.FirstName @selectedDentist.LastName will take care of the health of your teeth! <br/>
+                            You can contact him by email: <b>@selectedDentist.Email</b><br />
+                            The cost of this service will be <i>@selectedMedicalService.Price $</i>. You can pay cash or credit card!
+                            </p>
+                    }
                 </div>
             </div>
+
             <div class="col-lg-7">
                 <div class="section-title mb-5">
-                    <h1 class="display-5 mb-0">We Offer The Best Quality Dental Services</h1>
+                    <h1 class="display-5 mb-0 text-center">We Offer The Best Quality Dental Services</h1>
                 </div>
                 <div class="row g-5">
                     <div class="col-md-6 service-item wow zoomIn" data-wow-delay="0.6s">
@@ -62,10 +73,8 @@
                 </div>
             </div>
             <div class="col-lg-5 service-item wow zoomIn" data-wow-delay="0.9s">
-                <div class="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-4">
-                    <h3 class="text-white mb-3">Make Appointment</h3>
-                    <p class="text-white mb-3">Clita ipsum magna kasd rebum at ipsum amet dolor justo dolor est magna stet eirmod</p>
-                    <h2 class="text-white mb-0">+0123 456 789</h2>
+                <div class="position-relative rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-4">
+                        <h2 class="text-dark mb-0">Thank you and for more details, please contact us: 021 489 533</h2>
                 </div>
             </div>
         </div>
@@ -73,81 +82,33 @@
 </div>
 <!-- Service End -->
 
-
-
-<h3>Select your appointments:</h3>
-
-<div class="w-25 p-3">
-    <select class="form-control" @bind-value="dentistId" @onchange="HandleAppChange" @bind-value:event="oninput">
-        @foreach (var item in appointmentsByCustomer)
-        {
-            <option value="@item.DentistId">
-                @item.dateTime
-            </option>
-        }
-    </select>
-</div>
-
-<h5>The medical services of the dentist @selectedDentistDetails.FirstName @selectedDentistDetails.LastName are:</h5>
-
-@if (medicalServicesByDentistId == null)
-{
-    <p><em>No medical service.</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var ms in medicalServicesByDentistId)
-            {
-                <tr>
-                    <td>@ms.Id</td>
-                    <td>@ms.Name</td>
-                    <td>@ms.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-<h5>For more information, you can contact him at the email address: <i>@selectedDentistDetails.Email</i></h5>
-
-
 @code {
+    [Parameter]
+    public string Id { get; set; }
+    private AppointmentResponse selectedAppointment = null;
+    private ResponseServices selectedMedicalService = null;
+    private DentistResponseModel selectedDentist = null;
     private List<ResponseServices> medicalServicesByDentistId = new List<ResponseServices>();
-
-    private List<AppointmentResponse> appointmentsByCustomer = new List<AppointmentResponse>();
-
     private DentistResponseModel selectedDentistDetails = new DentistResponseModel();
 
     private Guid? dentistId = null;  // default a random ID dentist
 
-    //by default a customer ID
-    private Guid currentRequesCustomertId = Guid.Parse("9665bfd7-d60b-4557-b44e-80459d8c8e97");    //by default an ID but need to be modify (Dentist / Customer!)
-
-    protected override async Task OnInitializedAsync()
+    //by default a customer ID (current)
+    private Guid currentRequesCustomertId = Guid.Parse("9665bfd7-d60b-4557-b44e-80459d8c8e97");  
+    
+    protected override async Task OnParametersSetAsync()
     {
-        //take all appointments
-        var tempAppByCustomerId = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"/api/Appointments/customers/{currentRequesCustomertId}");
-        appointmentsByCustomer = tempAppByCustomerId.Result.ToList();
-
+        var tempApp = await Http.GetFromJsonAsync<ApiResult<AppointmentResponse>>($"/api/Appointments/{Id}");
+        this.selectedAppointment = tempApp.Result;
+        await TakeMoreDetails();
     }
 
-    private async Task HandleAppChange()
+    private async Task TakeMoreDetails()
     {
-        //take all medical services by dentist ID
-        var tempMedicalServices = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"/api/Dentists/medicalservices/{dentistId}");
-        medicalServicesByDentistId = tempMedicalServices.Result.ToList();
+        var tempMedicalService = await Http.GetFromJsonAsync<ApiResult<ResponseServices>>($"/api/MedicalServices/{selectedAppointment.MedicalServiceId}");
+        this.selectedMedicalService = tempMedicalService.Result;
 
-        //take dentist detalist from backend
-        var tempDentistInfo = await Http.GetFromJsonAsync<ApiResult<DentistResponseModel>>($"api/Dentists/{dentistId}");
-        selectedDentistDetails = tempDentistInfo.Result;
+        var tempDentist = await Http.GetFromJsonAsync<ApiResult<DentistResponseModel>>($"/api/Dentists/{selectedAppointment.DentistId}");
+        this.selectedDentist = tempDentist.Result;
     }
 }

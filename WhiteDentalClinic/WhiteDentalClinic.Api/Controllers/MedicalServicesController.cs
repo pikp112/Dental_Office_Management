@@ -3,6 +3,8 @@ using WhiteDentalClinic.Application.Models.Dentist;
 using WhiteDentalClinic.Application.Models;
 using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
+using WhiteDentalClinic.Application.Models.AppointmentModel;
+using WhiteDentalClinic.Application.Services;
 
 namespace WhiteDentalClinic.Api.Controllers
 {
@@ -63,9 +65,9 @@ namespace WhiteDentalClinic.Api.Controllers
             {
                 if(_medicalService.GetAll().ToList().First(x => x.Id == id) == null)
                 {
-                    return NotFound(ApiGenericsResult<ResponseUpdateDentistModel>.Failure(new[] { $"{ex.Message}" }));
+                    return NotFound(ApiGenericsResult<ResponseUpdateMedicalService>.Failure(new[] { $"{ex.Message}" }));
                 }
-                return BadRequest(ApiGenericsResult<ResponseUpdateDentistModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseUpdateMedicalService>.Failure(new[] { $"{ex.Message}" }));
             }
         }
 
@@ -80,10 +82,29 @@ namespace WhiteDentalClinic.Api.Controllers
             {
                 if(_medicalService.GetAll().ToList().First(x => x.Id == id) == null)
                 {
-                    return NotFound(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
+                    return NotFound(ApiGenericsResult<ResponseMedicalServices>.Failure(new[] { $"{ex.Message}" }));
                 }
-                return BadRequest(ApiGenericsResult<ResponseDentistModel>.Failure(new[] { $"{ex.Message}" }));
+                return BadRequest(ApiGenericsResult<ResponseMedicalServices>.Failure(new[] { $"{ex.Message}" }));
             }
         }
+
+        [HttpGet("{id:guid}")]
+        public IActionResult GetById(Guid id)
+        {
+            try
+            {
+                return Ok(ApiGenericsResult<ResponseMedicalServices>.Success(_medicalService.GetById(id)));
+            }
+            catch (Exception ex)
+            {
+                if (_medicalService.GetAll().ToList().First(x => x.Id == id) == null)
+                {
+                    return NotFound(ex.Message);
+                }
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }
