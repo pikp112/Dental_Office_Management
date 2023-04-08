@@ -1,5 +1,6 @@
 ﻿@attribute [Route(Routes.Profile)]
 @using System.ComponentModel.DataAnnotations;
+@using WhiteDentalClinic.Application.Models.Customer;
 @using WhiteDentalClinic.Shared.Models;
 @inject HttpClient Http
 @inject NavigationManager NavManager
@@ -25,55 +26,69 @@ else
                                     <div class="text-center">
                                         <h3 class="h2 text-black mb-0">@currentProfile.FirstName @currentProfile.LastName</h3>
                                     </div>
-                                    <ul class="list-unstyled mb-1-9">
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
-                                        <!--if is a customer show customer....else dentist (will be)-->
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
-                                        @if (IsTaskRunning == true)
-                                        {
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Firstname:</span>
-                                                <input class="form-control" value="@currentProfile.FirstName" @oninput="HandleFirstName" />
+                                    @if (IsTaskRunning == false)
+                                    {
+                                        <ul class="list-unstyled mb-1-9">
+                                            <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
+                                            <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
+                                            <li class="mb-2 mb-xl-3 display-28">
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Age:</span>
+                                                @currentProfile.Age
                                             </li>
                                             <li class="mb-2 mb-xl-3 display-28">
-                                                <span class="display-26 text-secondary me-2 font-weight-600">Lastname:</span>
-                                                <input class="form-control" value="@currentProfile.LastName" @oninput="HandleLastName" />
-                                            </li>
-
-                                        }
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Age:</span>
-                                            @if (IsTaskRunning == false)
-                                            {
-                                                @currentProfile.Age
-                                            }
-                                            else
-                                            {
-                                                <input class="form-control" value="@currentProfile.Age" @oninput="HandleAge" />
-                                            }
-                                            </li>
-                                        <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
-                                            @if (IsTaskRunning==false)
-                                            {
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
                                                 @currentProfile.Email
-                                            }
-                                            else
-                                            {
-                                                <input class="form-control" value="@currentProfile.Email" @oninput="HandleEmail"/>
-                                            }
-                                        </li>
-                                        <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Phone:</span> 0758956148</li>
-                                    </ul>
-                                    <div class="row pt-1">
-                                        <div class="col-6 mb-3">
-                                            <h6>   Edit</h6>
-                                            <button id="changeButton" class="btn btn-primary" disabled=@IsTaskRunning @onclick="Clicked"> @ButtonName</button>
+                                            </li>
+                                            <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Phone:</span> 0758956148</li>
+                                        </ul>
+                                        <div class="row pt-1">
+                                            <div class="col-6 mb-3">
+                                                <h6>Edit</h6>
+                                                <button id="changeButton" class="btn btn-primary" disabled=@IsTaskRunning @onclick="Clicked"> @ButtonName</button>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Appointments</h6>
+                                                <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
+                                                    Click here
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="col-6 mb-3">
-                                            <h6>Appointments</h6>
-                                            <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
-                                                Click here
-                                            </button>
-                                        </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                            <ul class="list-unstyled mb-1-9">
+                                                <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
+                                                <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
+                                                <li class="mb-2 mb-xl-3 display-28">
+                                                    <span class="display-26 text-secondary me-2 font-weight-600">Firstname:</span>
+                                                    <input type="text" class="form-control" @bind="@updateCurrentCustomer.FirstName" />
+                                                </li>
+                                                <li class="mb-2 mb-xl-3 display-28">
+                                                    <span class="display-26 text-secondary me-2 font-weight-600">Lastname:</span>
+                                                    <input type="text" class="form-control" @bind="@updateCurrentCustomer.LastName" />
+                                                </li>
+                                                <li class="mb-2 mb-xl-3 display-28">
+                                                    <span class="display-26 text-secondary me-2 font-weight-600">Age:</span>
+                                                    <input type="number" class="form-control" @bind="@updateCurrentCustomer.Age" />
+                                                </li>
+                                                <li class="mb-2 mb-xl-3 display-28">
+                                                    <span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
+                                                    <input type="email" class="form-control" @bind="@updateCurrentCustomer.Email" />
+                                                </li>
+                                            </ul>
+                                            <div class="row pt-1">
+                                                <div class="col-6 mb-3">
+                                                    <h6>Edit</h6>
+                                                    <button id="changeButton" class="btn btn-primary" type="submit" onclick="@SaveChanges"> @ButtonName</button>
+                                                </div>
+                                                <div class="col-6 mb-3">
+                                                    <h6>Appointments</h6>
+                                                    <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
+                                                        Click here
+                                                    </button>
+                                                </div>
+                                            </div>
+                                    }
 
                                     <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
                                         <MudIcon Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" />
@@ -113,6 +128,8 @@ else
 @code {
     private ProfileResponse currentProfile = null;
 
+    private UpdateCustomerRequest updateCurrentCustomer = new UpdateCustomerRequest();
+
     protected override async Task OnInitializedAsync()
     {
         Guid currentRequestId = Guid.Parse("9665bfd7-d60b-4557-b44e-80459d8c8e97");    //by default an ID but need to be modify (CUSTOMER/DENTIST)
@@ -134,80 +151,18 @@ else
     async void Clicked()
     {
         IsTaskRunning = true;
-        ButtonName = "Disabled";
-        await OnButtonClick();
+        ButtonName = "Save changes";
 
         //IsTaskRunning = false; this to enable the button after the button click function executed
         StateHasChanged();
     }
 
-    Task OnButtonClick()
-    {
-        //here can perform buton click function
-        return Task.Delay(6000);
-    }
-
-    //new Email
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Wrong email")]
-    [EmailAddress(ErrorMessage = "Invalid Email Address")]
-    public string newEmail { get; set; }
-
-    private EditContext editContext;
-
-    public async Task HandleEmail()
+    public async Task SaveChanges()
     {
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
         if (confirmed)
         {
-            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
-            Thread.Sleep(1000);
-            NavManager.NavigateTo(Routes.Index);
-
-        }
-        else
-        {
-            Thread.Sleep(1000);
-            NavManager.NavigateTo(Routes.Index);
-        }
-    }
-    public async Task HandleAge()
-    {
-        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
-        if (confirmed)
-        {
-            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
-            Thread.Sleep(1000);
-            NavManager.NavigateTo(Routes.Index);
-
-        }
-        else
-        {
-            Thread.Sleep(1000);
-            NavManager.NavigateTo(Routes.Index);
-        }
-    }
-    public async Task HandleFirstName()
-    {
-        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
-        if (confirmed)
-        {
-            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
-            Thread.Sleep(1000);
-            NavManager.NavigateTo(Routes.Index);
-
-        }
-        else
-        {
-            Thread.Sleep(1000);
-            NavManager.NavigateTo(Routes.Index);
-        }
-    }
-    public async Task HandleLastName()
-    {
-        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
-        if (confirmed)
-        {
-            var request = await Http.PutAsJsonAsync("/api/Customers", newEmail);
+            var request = await Http.PutAsJsonAsync($"/api/Customers?id={currentProfile.Id.ToString()}", updateCurrentCustomer);
             Thread.Sleep(1000);
             NavManager.NavigateTo(Routes.Index);
 
