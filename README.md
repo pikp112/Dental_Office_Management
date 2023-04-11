@@ -1,27 +1,26 @@
 # **Dental Office Management**
 
-![Build Status](https://dev.azure.com/nuyonu/N-Tier-Architecture/_apis/build/status/nuyonu.N-Tier-Architecture?branchName=master) 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=alert_status)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
 ![](https://camo.githubusercontent.com/deab10366c6377e3d4cc454a26f96225e2cc196214b129b95c9d5284207b64d7/68747470733a2f2f696d672e736869656c64732e696f2f7374617469632f76313f6c6162656c3d254630253946253843253946266d6573736167653d496625323055736566756c267374796c653d7374796c653d666c617426636f6c6f723d424334453939)
 ![](https://visitor-badge.glitch.me/badge?page_id=nuyonu/N-Tier-Architecture)
 
-This is a n-layer architecture based on [Common web application architectures][common-web-architectures]. The technologies used can be found below. It will be updated to the latest versions, depending on how stable they will be.
+This is a n-layer architecture project based on [Common web application architectures][common-web-architectures]. The technologies used can be found below. 
 
 ## **Introduction**
 
 <div align="center">
 
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=npikp112_Dental_Office_Management)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture) 
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture) 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=security_rating)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture) 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=coverage)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management) 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management) 
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=security_rating)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management) 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=coverage)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
 
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=bugs)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=code_smells)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=nuyonu_N-Tier-Architecture&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=nuyonu_N-Tier-Architecture)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=bugs)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=code_smells)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
 
 </div>
 
