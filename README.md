@@ -23,8 +23,9 @@ This is a n-layer architecture project based on [Common web application architec
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/nuyonu/N-Tier-Architecture/master/github/images/N-Tier-Dependencies.png" alt="drawing" width="400"/>
-    
+<img src="https://github.com/pikp112/images/blob/main/DiagramWhiteClinicalManagement.drawio.png" alt="drawing" width="400"/>
+ https://raw.githubusercontent.com/{github_user_name}/{repo_name}/{branch}/.github/images/{asset_name}.{asset_extension}
+   
 </div>
 
 ---
