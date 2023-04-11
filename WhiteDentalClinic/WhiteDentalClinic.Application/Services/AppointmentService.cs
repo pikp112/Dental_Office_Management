@@ -39,6 +39,43 @@ namespace WhiteDentalClinic.Application.Services
             return _mapper.Map<IEnumerable<ResponseAppointmentModel>>(selectedAppointmentByDentistId);
         }
 
+        public List<DateTime> CheckAppointments(DateTime date, Guid dentistId)
+        {
+            var bookedAppointments = _appointmentRepository
+                .GetAll()
+                .Where(app => app.DentistId == dentistId)
+                .ToList();
+
+            var availableSlots = new List<DateTime>();
+
+            var startHour = new DateTime(date.Year, date.Month, date.Day, 8, 0, 0);
+            var endHour = new DateTime(date.Year, date.Month, date.Day, 16, 30, 0);
+            var currentApp = startHour;
+
+            while (currentApp + TimeSpan.FromMinutes(30) <= endHour)
+            {
+                var isAvailable = true;
+
+                foreach (var item in bookedAppointments)
+                {
+                    var tempTime = item.DateTime.ToString("HH:mm");
+                    var timeTimeSpan = TimeSpan.Parse(tempTime);
+                    var newDateTime = new DateTime(date.Year, date.Month, date.Day).Add(timeTimeSpan);
+                    if (currentApp == newDateTime)
+                    {
+                        isAvailable = false;
+                        break;
+                    }
+                }
+                if (isAvailable)
+                {
+                    availableSlots.Add(currentApp);
+                }
+                currentApp += TimeSpan.FromHours(1);
+            }
+            return availableSlots;
+        }
+
 
         public ResponseAppointmentModel GetById(Guid appointmentId)
         {

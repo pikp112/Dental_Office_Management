@@ -13,7 +13,7 @@ namespace WhiteDentalClinic.Api.Controllers
             _appointmentService = appointmentService;
         }
 
-        [HttpGet("customers{customerId}")]
+        [HttpGet("customers/{customerId}")]
         public ActionResult<IEnumerable<ResponseAppointmentModel>> GetAllAppointmentsByCustomer(Guid customerId)
         {
             try
@@ -30,7 +30,7 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
-        [HttpGet("dentists{dentistId}")]
+        [HttpGet("dentists/{dentistId}")]
         public ActionResult<IEnumerable<ResponseAppointmentModel>> GetAllAppointmentsByDentist(Guid dentistId)
         {
             try
@@ -47,6 +47,15 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
+        [HttpGet("{date}")]
+        public ActionResult<IEnumerable<DateTime>> CheckAppointments(DateTime date, Guid dentistId)
+        {
+            if (_appointmentService.GelAll().ToList().FirstOrDefault( app => app.DentistId == dentistId) == null)
+            {
+                return NotFound();
+            }
+            return _appointmentService.CheckAppointments(date, dentistId);
+        }
 
         [HttpGet("{id:guid}")]
         public IActionResult GetAppointmentById(Guid id)

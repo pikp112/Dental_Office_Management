@@ -17,6 +17,9 @@ namespace WhiteDentalClinic.DataAccess.Configurations
             builder.HasOne<Dentist>(d => d.Dentist)
                 .WithMany(ap => ap.Appointments)
                 .HasForeignKey(d => d.DentistId);
+            builder.HasOne<MedicalService>(a => a.MedicalService)
+                .WithMany(ms => ms.Appointments)
+                .HasForeignKey(a => a.MedicalServiceId);
         }
     }
 }

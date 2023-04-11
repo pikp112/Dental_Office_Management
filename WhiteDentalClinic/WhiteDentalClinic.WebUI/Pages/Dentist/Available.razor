@@ -1,0 +1,77 @@
+﻿@page "/available/{Id}"
+@using WhiteDentalClinic.Shared.Models;
+@using static System.Net.WebRequestMethods;
+@inject HttpClient Http
+
+<div class="card card-style1 border-0 m-3">
+    <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <p class="text-dark mb-3">
+                    Our dentist, @selectedDentist.FirstName @selectedDentist.LastName will take care of the health of your teeth! <br />
+                    You can contact him by email: <b>@selectedDentist.Email</b><br />
+                </p>
+                <div class="flex flex-wrap formbold--mx-3">
+                    <div class="w-full sm:w-half formbold-px-3">
+                        <div class="formbold-mb-5 w-full">
+                            <label for="date" class="formbold-form-label text-center">Check a day</label>
+                            <input type="date"
+                                   name="date"
+                                   id="date"
+                                   class="formbold-form-input"
+                                   min="@startDate.ToString("yyyy-MM-dd")"
+                                   max="@endDate.ToString("yyyy-MM-dd")"
+                                   @bind="@requestDate"
+                                   onclick="@CheckDate(requestDate)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 px-xl-10">
+                @if (requestDate != default(DateTime))
+                {
+                    <div class="col-sm-6 text-center">
+                        <div class="form-group">
+                            <div class="form-label">
+                                <span class="form-label text-center">Available hours:</span><br/>
+                                    @foreach (var item in availableTimes)
+                                    {
+                                        <div class="slot text-center">
+                                            @item.ToShortTimeString()
+                                        </div>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private ProfileResponse selectedDentist = new ProfileResponse();
+    //set min and max date
+    private DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Today.AddDays(1).Day);
+    private DateTime endDate = new DateTime(DateTime.Today.AddYears(1).Year, DateTime.Now.Month, DateTime.Now.Day);
+    //request date and time
+    private DateTime requestDate = new DateTime();
+    private List<DateTime> availableTimes = new List<DateTime>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine(Id);
+        var tempDentist = await Http.GetFromJsonAsync<ApiResult<ProfileResponse>>($"/api/Dentists/{Id}");
+        this.selectedDentist = tempDentist.Result;
+    }
+
+    private async Task CheckDate(DateTime selectedDate)
+    {
+        var inputDate = selectedDate.ToString("yyyy-MM-dd");
+        var tempTimes = await Http.GetFromJsonAsync<List<DateTime>>($"/api/Appointments/{inputDate}?dentistId={selectedDentist.Id.ToString()}");
+        this.availableTimes = tempTimes.ToList();
+    }
+}

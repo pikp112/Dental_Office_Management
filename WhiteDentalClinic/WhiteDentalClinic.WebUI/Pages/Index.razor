@@ -1,4 +1,5 @@
-﻿@attribute [Route(Routes.Index)]
+﻿@page "/"
+@attribute [Route(Routes.Index)]
 @inject NavigationManager NavManager
 
 <PageTitle>Home</PageTitle>
@@ -8,7 +9,7 @@
     <!-- Heading Row-->
     <div class="row gx-4 gx-lg-5 align-items-center my-5">
         <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="img/homeImage.jpg"/></div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 text-center">
             <h1 class="font-weight-light">White Dental Clinic</h1>
             <p>Our ultimate objective is to help our patients achieve their desired outcomes and improve their dental health and to educate them concerning quality dentistry.<br />
                 We provide a range of cosmetic treatments including facial aesthetics, natural tooth coloured fillings, highly aesthetic crowns and veneers and tooth whitening.</p>
@@ -69,35 +70,35 @@
     <div class="row gx-4 gx-lg-5">
         <div class="col-md-4 mb-5">
             <div class="card h-100">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h2 class="card-title">
                         Dental Bridges
                     </h2>
                     <p class="card-text">If you have missing teeth, including front teeth, a dental bridge can help restore the look and function of your teeth.It bridges the gap where the missing tooth is.</p>
                 </div>
-                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                <div class="card-footer text-center"><a class="btn btn-primary btn-sm" onclick="@(() => {NavManager.NavigateTo(Routes.Services);})">More Info</a></div>
             </div>
         </div>
         <div class="col-md-4 mb-5">
             <div class="card h-100">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h2 class="card-title">
                         Dental Implants
                     </h2>
                     <p class="card-text">Is a procedure that replaces tooth roots with metal, screwlike posts and replaces damaged or missing teeth with artificial teeth that look and function much like real ones.</p>
                 </div>
-                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                <div class="card-footer text-center"><a class="btn btn-primary btn-sm" onclick="@(() => {NavManager.NavigateTo(Routes.Services);})">More Info</a></div>
             </div>
         </div>
         <div class="col-md-4 mb-5">
             <div class="card h-100">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h2 class="card-title">
                         Teeth Whitening
                     </h2>
                     <p class="card-text">Is a form of dentistry and should only be carried out by a dentist or another regulated dental professional, such as a dental hygienist or dental therapist, on the prescription of a dentist.</p>
                 </div>
-                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                <div class="card-footer text-center"><a class="btn btn-primary btn-sm" onclick="@(() => {NavManager.NavigateTo(Routes.Services);})">More Info</a></div>
             </div>
         </div>
     </div>

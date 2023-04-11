@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Components\LogIn.razor" />
+    <Content Remove="Pages\Dentist\DentistAvailability.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="6.0.15" />
@@ -31,6 +36,24 @@
 
   <ItemGroup>
     <Folder Include="Pages\Customer\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\LogIn.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\LogIn.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Dentist\DentistAvailability.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Dentist\DentistAvailability.razor" />
+    <None Include="Pages\LogIn.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Dentist\DentistAvailability.razor" />
   </ItemGroup>
 
 </Project>

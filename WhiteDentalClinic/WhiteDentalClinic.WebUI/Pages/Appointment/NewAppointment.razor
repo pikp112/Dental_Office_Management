@@ -11,8 +11,8 @@
 <div class="formbold-main-wrapper">
     <div class="formbold-form-wrapper">
         <EditForm action="https://formbold.com/s/FORM_ID" method="POST"
-                  Model="@newAppointment" OnSubmit="@HandleValidSubmit">
-            @*<FluentValidationValidator />*@
+                  Model="@newAppointment" OnValidSubmit="@HandleValidSubmit">
+            <FluentValidationValidator />
             <div class="formbold-mb-5">
                 <label for="name" class="formbold-form-label"> Full Name </label>
                 <input type="text"
@@ -30,7 +30,7 @@
                        class="formbold-form-input" />
             </div>
             <div class="formbold-mb-5">
-                <label for="phone" class="formbold-form-label"> Select a dentist </label>
+                <label for="dentist" class="formbold-form-label"> Select a dentist </label>
                 <select name="dentistId"
                         id="dentistId"
                         placeholder="Select a dentist"
@@ -45,8 +45,24 @@
                 </select>
                 <ValidationMessage For="@(() => newAppointment.DentistId)" />
             </div>
+
             @if (@newAppointment.DentistId != default(Guid))
             {
+                <div class="formbold-mb-5">
+                    <label for="medicalService" class="formbold-form-label"> Select a medical service </label>
+                    <select name="medicalServiceId"
+                        id="medicalServiceId"
+                        placeholder="Select a medical service"
+                        class="form-control"
+                        @bind="@newAppointment.MedicalServiceId">
+                        @foreach (var medService in medicalServicesBySelectedDentist)
+                        {
+                            <option value="none" selected disabled hidden>Select an option</option>
+                            <option value="@medService.Id">@medService.Name</option>
+                        }
+                    </select>
+                    <ValidationMessage For="@(() => newAppointment.MedicalServiceId)" />
+                </div>
                 <div class="flex flex-wrap formbold--mx-3">
                     <div class="w-full sm:w-half formbold-px-3">
                         <div class="formbold-mb-5 w-full">
@@ -57,9 +73,7 @@
                                class="formbold-form-input"
                                min="@startDate.ToString("yyyy-MM-dd")"
                                max="@endDate.ToString("yyyy-MM-dd")"
-                               @bind="@requestDate" />
-                            @*                               <ValidationMessage For="@(() => newAppointment.dateTime)"/>
-                        *@<p>@requestDate</p>
+                               @bind="@requestDate"/>
                         </div>
                     </div>
                     <div class="w-full sm:w-half formbold-px-3">
@@ -73,8 +87,6 @@
                                min="@startTime"
                                max="@endTime"
                                @bind="@requestTime" />
-                            @*                            <ValidationMessage For="@(() => newAppointment.dateTime)" />
-                        *@<p>@requestTime</p>
                         </div>
                     </div>
                 </div>
@@ -82,20 +94,57 @@
                     <button type="submit" class="formbold-btn">Book Appointment</button>
                 </div>
             }
-            else
-            {
-
-            }
         </EditForm>
     </div>
 </div>
 
-<h4> @response</h4>
+<h4 class="text-center"> @response</h4>
+@*
+@if (ExistAppointment == true && alertWrongBox == true)
+{
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+                    <button type="button" class="close font__size-18" data-dismiss="alert">
+                        <span aria-hidden="true">
+                            <i class="fa fa-times warning"></i>
+                        </span>
+                    </button>
+                    <i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>
+                    <strong class="font__weight-semibold">Warning!</strong> Your dentist is probably busy then. Please select another option.
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ExistAppointment == false && alertConfirmBox == true)
+{
+    <div class="container mt-5">
+        <div class="row">
+
+            <div class="col-sm-12">
+                <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+                    <button type="button" class="close font__size-18" data-dismiss="alert">
+                        <span aria-hidden="true">
+                            <a>
+                                <i class="fa fa-times greencross"></i>
+                            </a>
+                        </span>
+                    </button>
+                    <i class="start-icon far fa-check-circle faa-tada animated"></i>
+                    <strong class="font__weight-semibold">Well done!</strong> You have successfully made an appointment.
+                </div>
+            </div>
+        </div>
+    </div>
+}*@
 
 
 @code {
     private List<DentistResponseModel> dentists = new List<DentistResponseModel>();
-
+    private List<ResponseServices> medicalServicesBySelectedDentist = new List<ResponseServices>();
     private List<DateTime> appointmentsSelectedDentist = new List<DateTime>();
     //set min and max date
     private DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Today.AddDays(1).Day);
@@ -114,18 +163,19 @@
     private DateTime requestDateTime = new DateTime();
 
     //response
-    private string response = string.Empty;
-    private string rejectAppointment = "Sorry, please try again!";
     private bool ExistAppointment = false;
+    private bool alertWrongBox = false;
+    private bool alertConfirmBox = false;
+    private string response = null;
 
     private RequestAppointment newAppointment = new RequestAppointment
         {
-            CustomerId = Guid.Parse("c210cc12-7484-41b9-96da-834d2faf3aa2") // by default an ID customer. Need to be current Id customer
+            CustomerId = Guid.Parse("9665bfd7-d60b-4557-b44e-80459d8c8e97") // by default an ID customer. Need to be current Id customer
         };
 
-    //check dentist's list
     protected override async Task OnInitializedAsync()
     {
+        //take all dentists
         var tempDentistsList = await Http.GetFromJsonAsync<ApiResult<IEnumerable<DentistResponseModel>>>("api/Dentists");
         dentists = tempDentistsList.Result.ToList();
     }
@@ -135,16 +185,20 @@
     {
         //checked
         var stringDentistIdSelected = dentistIdSelected.ToString();
-        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointments/dentists{stringDentistIdSelected}");
+        var tempAppointmentsSelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<AppointmentResponse>>>($"api/Appointments/dentists/{stringDentistIdSelected}");
         foreach (var item in tempAppointmentsSelectedDentist.Result.ToList())
         {
-            appointmentsSelectedDentist.Add(item.dateTime);
+            appointmentsSelectedDentist.Add(item.DateTime);
         }
         foreach (var appDateTime in appointmentsSelectedDentist)
         {
             responseDate.Add(appDateTime.Date);
             responseTime.Add(appDateTime.TimeOfDay);
         }
+
+        //take medical services by dentist id
+        var tempMedicalServicesBySelectedDentist = await Http.GetFromJsonAsync<ApiResult<IEnumerable<ResponseServices>>>($"api/Dentists/medicalservices/{stringDentistIdSelected}");
+        medicalServicesBySelectedDentist = tempMedicalServicesBySelectedDentist.Result.ToList();
     }
 
 
@@ -156,7 +210,6 @@
             if (date.Date == requestDate.Date)
             {
                 CheckTime(requestTime);
-                Console.WriteLine($"checked date {date.Date} == {requestDate.Date}");
             }
         }
         void CheckTime(DateTime inputTime)
@@ -165,25 +218,19 @@
             {
                 if (time == requestTime.TimeOfDay)
                 {
-                    Console.WriteLine($"checked time {time} == {requestTime.TimeOfDay}");
                     this.ExistAppointment = true;
-                    this.response = this.rejectAppointment;
-                    NavManager.NavigateTo(Routes.NewAppointment);
-                    return;
+                    this.response = "Sorry, please try again.";
                 }
             }
         }
         if (ExistAppointment == false)
         {
-            Console.WriteLine("asdaasfas");
-            newAppointment.dateTime = requestDate.Date.Add(requestTime.TimeOfDay);
-            Console.WriteLine(newAppointment.dateTime);
+            newAppointment.DateTime = requestDate.Date.Add(requestTime.TimeOfDay);
             bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
             if (confirmed)
             {
                 var request = await Http.PostAsJsonAsync("/api/Appointments", newAppointment);
-                this.response = await request.Content.ReadAsStringAsync();
-
+                this.response = "Thank you for your appointment";
             }
             else
             {

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using WhiteDentalClinic.Application.Exceptions;
+using WhiteDentalClinic.Application.Models.AppointmentModel;
 using WhiteDentalClinic.Application.Models.MedicalServiceModel;
 using WhiteDentalClinic.Application.Services.Interfaces;
 using WhiteDentalClinic.DataAccess.Entities;
+using WhiteDentalClinic.DataAccess.Repositories;
 using WhiteDentalClinic.DataAccess.Repositories.IRepositories;
 using WhiteDentalClinic.Shared.Services;
 
@@ -33,6 +35,7 @@ namespace WhiteDentalClinic.Application.Services
 
         public IEnumerable<ResponseMedicalServices> GetAllByDentistId(Guid requestDentistId)
         {
+            //to delete? is something in DentistService
             //medical services by input dentist ID
             var listMedicalServicesById = _dentistServiceRepository.GetAll().Where(x => x.DentistId == requestDentistId);
 
@@ -92,7 +95,12 @@ namespace WhiteDentalClinic.Application.Services
             {
                 Id = _medicalServiceRepository.UpdateEntity(selectedMedicalService).Id
             };
+        }
 
+        public ResponseMedicalServices GetById(Guid id)
+        {
+            var selectedMedicalServiceById = _medicalServiceRepository.GetAll().FirstOrDefault(ms => ms.Id == id);
+            return _mapper.Map<ResponseMedicalServices>(selectedMedicalServiceById);
         }
     }
 }
