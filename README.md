@@ -10,15 +10,12 @@ This is a n-layer architecture project based on [Common web application architec
 ## Technologies
 - .NET 6
 - ASP.NET Core 6
+- Blazor WebAssembly
 - Swagger (Documentation)
 - Entity Framework Core (SQL Server)
 - ASP.NET Core Identity (SQL Server)
 - AutoMapper
 - FluentValidation
-- NUnit (Integration tests)
-- XUnit (Unit tests)
-- FluentAssertion (Testing projects)
-- NBuilder (Testing projects)
 
 ---
 
