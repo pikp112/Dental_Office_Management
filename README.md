@@ -20,7 +20,7 @@ This is a n-layer architecture project based on [Common web application architec
 ---
 ## Front-end images
 
-<span><img src="https://github.com/pikp112/images/blob/main/img1.png" alt="drawing" width="600"/><span/>
+<span><img src="https://github.com/pikp112/images/blob/main/img1.png" alt="drawing" width="600"/></span>
 <span><img src="https://github.com/pikp112/images/blob/main/img2.png" alt="drawing" width="600"/></span>
 <img src="https://github.com/pikp112/images/blob/main/img3.png" alt="drawing" width="600"/>
 <img src="https://github.com/pikp112/images/blob/main/img4.png" alt="drawing" width="600"/>
