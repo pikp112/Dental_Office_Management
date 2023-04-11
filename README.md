@@ -6,24 +6,6 @@
 
 This is a n-layer architecture project based on [Common web application architectures][common-web-architectures]. The technologies used can be found below. 
 
-## **Introduction**
-
-<div align="center">
-
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=npikp112_Dental_Office_Management)
-
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management) 
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management) 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=security_rating)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management) 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=npikp112_Dental_Office_Management&metric=coverage)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
-
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=bugs)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=code_smells)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pikp112_Dental_Office_Management&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=pikp112_Dental_Office_Management)
-
-</div>
-
 ---
 
 ## Technologies
