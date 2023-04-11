@@ -92,7 +92,7 @@ namespace WhiteDentalClinic.Application.Services
             _dentistServiceRepository.AddEntity(new DentistServiceEntity
             {
                 Id = Guid.NewGuid(),
-                MedicalServiceId = updateDentistModel.AdditionlMedicalServiceId,
+                MedicalServiceId = updateDentistModel.AdditionalMedicalServiceId,
                 DentistId = id
             });
 
