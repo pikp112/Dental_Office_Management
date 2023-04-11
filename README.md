@@ -24,7 +24,7 @@ This is a n-layer architecture project based on [Common web application architec
 <div align="center">
 
 <img src="https://github.com/pikp112/images/blob/main/DiagramWhiteClinicalManagement.drawio.png" alt="drawing" width="800"/>
-<img src="https://github.com/pikp112/images/blob/main/structure.png" alt="drawing" width="800"/>
+<img src="https://github.com/pikp112/images/blob/main/structure.png" alt="drawing" width="400"/>
    
 </div>
 
