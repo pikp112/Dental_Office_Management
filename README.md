@@ -79,7 +79,7 @@ A quick method to use the exposed solution is to download a copy of this project
 Migrations will be applied automatically. If you want to add new migrations to be applied to over the database, you will need to run the command below in the root folder
 
 ```c#
-dotnet ef migrations add Migration-Name --project N-Tier.DataAccess -o Persistence/Migrations --startup-project N-Tier.API
+dotnet ef migrations add Migration-Name --project DentalOfficeMangement.DataAccess -o Persistence/Migrations --startup-project DentalOfficeManagement.API
 ```
 
 <!-- ## **Maintainers** -->
