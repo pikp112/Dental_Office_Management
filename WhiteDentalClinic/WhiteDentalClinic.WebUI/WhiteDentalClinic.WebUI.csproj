@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Content Remove="Components\LogIn.razor" />
-    <Content Remove="Pages\Dentist\DentistAvailability.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,16 +43,10 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\LogIn.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Dentist\DentistAvailability.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Dentist\DentistAvailability.razor" />
     <None Include="Pages\LogIn.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Dentist\DentistAvailability.razor" />
   </ItemGroup>
 
 </Project>
