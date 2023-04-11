@@ -93,10 +93,7 @@ else
                 var temp2 = await Http.GetFromJsonAsync<ApiResult<ResponseServices>>($"/api/MedicalServices/{item.ToString()}");
                 appointmentsDetails.Add(temp2.Result);
             }
-            foreach (var item in appointmentsDetails)
-            {
-                Console.WriteLine(item.Id);
-            }
+
         }
         catch (Exception ex)
         {

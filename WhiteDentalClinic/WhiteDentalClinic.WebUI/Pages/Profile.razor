@@ -16,7 +16,7 @@ else
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 mb-4 mb-sm-5">
-                    <div class="card card-style1 border-0">
+                    <div class="card card-style1 border-0 m-3">
                         <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                             <div class="row align-items-center">
                                 <div class="col-lg-6 mb-4 mb-lg-0">
@@ -42,52 +42,52 @@ else
                                             <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Phone:</span> 0758956148</li>
                                         </ul>
                                         <div class="row pt-1">
-                                            <div class="col-6 mb-3">
+                                            <div class="col-6 mb-3 text-center">
                                                 <h6>Edit</h6>
                                                 <button id="changeButton" class="btn btn-primary" disabled=@IsTaskRunning @onclick="Clicked"> @ButtonName</button>
                                             </div>
-                                            <div class="col-6 mb-3">
+                                            <div class="col-6 mb-3 text-center">
                                                 <h6>Appointments</h6>
                                                 <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
-                                                    Click here
+                                                    Click Me
                                                 </button>
                                             </div>
                                         </div>
                                     }
                                     else
                                     {
-                                            <ul class="list-unstyled mb-1-9">
-                                                <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
-                                                <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
-                                                <li class="mb-2 mb-xl-3 display-28">
-                                                    <span class="display-26 text-secondary me-2 font-weight-600">Firstname:</span>
-                                                    <input type="text" class="form-control" @bind="@updateCurrentCustomer.FirstName" />
-                                                </li>
-                                                <li class="mb-2 mb-xl-3 display-28">
-                                                    <span class="display-26 text-secondary me-2 font-weight-600">Lastname:</span>
-                                                    <input type="text" class="form-control" @bind="@updateCurrentCustomer.LastName" />
-                                                </li>
-                                                <li class="mb-2 mb-xl-3 display-28">
-                                                    <span class="display-26 text-secondary me-2 font-weight-600">Age:</span>
-                                                    <input type="number" class="form-control" @bind="@updateCurrentCustomer.Age" />
-                                                </li>
-                                                <li class="mb-2 mb-xl-3 display-28">
-                                                    <span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
-                                                    <input type="email" class="form-control" @bind="@updateCurrentCustomer.Email" />
-                                                </li>
-                                            </ul>
-                                            <div class="row pt-1">
-                                                <div class="col-6 mb-3">
-                                                    <h6>Edit</h6>
-                                                    <button id="changeButton" class="btn btn-primary" type="submit" onclick="@SaveChanges"> @ButtonName</button>
-                                                </div>
-                                                <div class="col-6 mb-3">
-                                                    <h6>Appointments</h6>
-                                                    <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
-                                                        Click here
-                                                    </button>
-                                                </div>
+                                        <ul class="list-unstyled mb-1-9">
+                                            <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600"></span></li>
+                                            <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Position:</span> Customer</li>
+                                            <li class="mb-2 mb-xl-3 display-28">
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Firstname:</span>
+                                                <input type="text" class="form-control" @bind="@updateCurrentCustomer.FirstName" placeholder="@currentProfile.FirstName" />
+                                            </li>
+                                            <li class="mb-2 mb-xl-3 display-28">
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Lastname:</span>
+                                                <input type="text" class="form-control" @bind="@updateCurrentCustomer.LastName" placeholder="@currentProfile.LastName" />
+                                            </li>
+                                            <li class="mb-2 mb-xl-3 display-28">
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Age:</span>
+                                                <input type="number" class="form-control" @bind="@updateCurrentCustomer.Age" placeholder="@currentProfile.Age"/>
+                                            </li>
+                                            <li class="mb-2 mb-xl-3 display-28">
+                                                <span class="display-26 text-secondary me-2 font-weight-600">Email:</span>
+                                                <input type="email" class="form-control" @bind="@updateCurrentCustomer.Email" placeholder="@currentProfile.Email" />
+                                            </li>
+                                        </ul>
+                                        <div class="row pt-1">
+                                            <div class="col-6 mb-3 text-center">
+                                                <h6>Edit</h6>
+                                                <button id="changeButton" class="btn btn-primary" type="submit" onclick="@SaveChanges"> @ButtonName</button>
                                             </div>
+                                            <div class="col-6 mb-3 text-center">
+                                                <h6>Appointments</h6>
+                                                <button @onclick="@(() => {NavManager.NavigateTo(Routes.ProfileAppointments);})" class="btn btn-primary">
+                                                    Click Me
+                                                </button>
+                                            </div>
+                                        </div>
                                     }
 
                                     <ul class="social-icon-style1 list-unstyled mb-0 ps-0">

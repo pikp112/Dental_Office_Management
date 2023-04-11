@@ -47,6 +47,15 @@ namespace WhiteDentalClinic.Api.Controllers
             }
         }
 
+        [HttpGet("{date}")]
+        public ActionResult<IEnumerable<DateTime>> CheckAppointments(DateTime date, Guid dentistId)
+        {
+            if (_appointmentService.GelAll().ToList().FirstOrDefault( app => app.DentistId == dentistId) == null)
+            {
+                return NotFound();
+            }
+            return _appointmentService.CheckAppointments(date, dentistId);
+        }
 
         [HttpGet("{id:guid}")]
         public IActionResult GetAppointmentById(Guid id)

@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavManager
-@using Blazored.Toast.Configuration
+@using WhiteDentalClinic.WebUI.Pages;
 
 <!-- Responsive navbar-->
 <NavMenu />
@@ -12,14 +12,15 @@
     <!-- Content Row-->
     @Body
 
-    <BlazoredToasts />
 </div>
 <!-- Footer-->
 <footer class="py-5">
 
     <div class="container px-4 px-lg-5">
         <p class="m-0 text-center text-dark">Copyright &copy; White Dental Clinic 2023</p>
+        <button class="fixed-button wobble" onclick="@(() => {NavManager.NavigateTo(Routes.LogIn);})" type="button">
+            <i class="ion-plus-round"><img class="img-fluid rounded-5" src="img/loginimage.png" /></i>
+        </button>
         </div>
-        
 </footer>
 }

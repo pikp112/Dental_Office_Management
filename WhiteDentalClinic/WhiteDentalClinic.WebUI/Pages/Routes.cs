@@ -8,6 +8,7 @@
         public const string DentistInfo = "info";
         public const string Error = "error";
         public const string Index = "index";
+        public const string LogIn = "login";
         public const string NewAppointment = "newappointment";
         public const string Profile = "profile";
         public const string ProfileAppointments = "appointments";

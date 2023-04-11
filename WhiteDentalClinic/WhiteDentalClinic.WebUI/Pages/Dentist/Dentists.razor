@@ -43,7 +43,7 @@ else
                             <div class="pic"><img src="img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
                             <div class="member-info">
                                 <h4>@dentist.FirstName @dentist.LastName</h4>
-                                <span><button class="btn btn-primary" onclick="@(() => {NavManager.NavigateTo(Routes.NewAppointment);})">Check availability</button></span>
+                                <span><button class="btn btn-primary" onclick="@( () => {NavManager.NavigateTo($"/available/{dentist.Id.ToString()}");})"> Check availability</button></span>
                                 <p>Age: @dentist.Age</p>
                                 <p>Email address: @dentist.Email</p>
                                 <div class="social">
@@ -55,7 +55,6 @@ else
                             </div>
                         </div>
                     </div>
-
                 }
             </div>
         </div>
